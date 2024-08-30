@@ -16,7 +16,7 @@ Leaflet_Map_Detrs <- function(sample_determinant, year){
   library(leaflet)
   
   sample_determinant <- "0180"
-  year <- "2023"
+  year <- "2019"
   
   
   base_url <- "http://environment.data.gov.uk/water-quality/"
@@ -55,6 +55,8 @@ a <- ggplot(api2, aes(x = "", y = result)) +
 
 
 # All well and good but we don't have river level
+
+# Plot infers that the Hanna meter where it has ranges, elevates phosphate readings more than sondes.
 
 cowplot::plot_grid(a,b)
 
