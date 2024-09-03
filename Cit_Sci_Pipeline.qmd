@@ -1,0 +1,24 @@
+---
+title: "Proof of Concept Citizen Science QAQC"
+format: html
+editor: visual
+---
+
+## Automated QAQC of Third-Party Data
+
+Acknowledging and utilising third-party data enables the Environment Agency to work from a shared evidence base with its partners. Already a member of Catchment Partnerships nationwide, and with Integrated Environmental Planning teams within each EA area, the EA is in a good position to use freely available data collected by its partners to gather intelligence on the state of the environment in England.
+
+WIMS data collected by third-parties plot?
+
+A blocker for Citizen Science data is that it often uses off-the-shelf equipment and is collected by citizens which aren't by definition environmental specialists. It can, therefore, carry errors and requires a layer of Quality Assurance and Quality Control.
+
+Below we outline how this process of QAQC can be automated using the Defra Analytics & Science Hub (DASH) platform so that when Citizen Science data arrives at The Agency it undergoes QAQC, enabling this data to be used by analysts within the EA, in a way in which margins of error have been constrained.
+
+[![Generic RAP Pipeline](ETL.PNG){fig-align="center"}](https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/)
+
+#### Potential workflow for Citizen Science Data
+
+The below schematic uses existing EA and Defra systems. You can find out more about the DASH platform on the EA Sharepoint.
+
+![Citizen Science Data Flow Diagram](DFD.png){fig-align="center"}
+
