@@ -3,16 +3,35 @@ title: "Epicollect5 Automated QAQC example"
 format: html
 editor: visual
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, echo=FALSE, cache=TRUE)
 ```
 
-The Angling Trust Water Quality Monitoring Network uses Epicollect5 as a data collection platform. This platform enables data to be share data via manual download, visualises sample points on a map in app and importantly, provides an API: enabling data to consistantly be shared in a uniform format and in near-real-time, making it prime for automation.
 
-In this example, we will explore the Angling Trust Water Quality Monitoring Network.
+```{css}
+.dataTables_wrapper {
+  max-height: 350px;
+  overflow-y: auto;
+}
 
-This data includes the following parameters (the whole suite is not always measured at each site):
+.dataTables_wrapper table {
+font-size: 11px;
+}
+
+```
+## Rational
+
+By utilising our partner's data, the EA can enhance its understanding of our catchments and optimize the cost-effectiveness of monitoring efforts through a hybrid approach. However, a significant challenge is the presence of errors in third-party data. By focusing on improving the methodology of citizen science monitoring and implementing an additional layer of QA/QC upon receiving the data, EA analysts and decision-makers can be more confident in the accuracy of the environmental data, enabling more informed decisions where the margin of error is constrained.
+
+## Introduction 
+
+The Angling Trust Water Quality Monitoring Network (ATWQN) uses Epicollect5 as a data collection platform. This platform enables data to be shared via manual download, visualises sample points on a map in app and importantly, provides an open-access API: enabling data to consistantly be shared in a uniform format and in near-real-time, making it prime for automation.
+
+On this webpage, we will explore the Angling Trust Water Quality Monitoring Network (ATWQN), it uses the open data platform Epicollect5, which was developed by the Big Data Institute at the University of Oxford.
+
+The ATWQN has been set up to capture a mixture of quantitative, qualitative and observational water quality data. The following parameters are recorded:
+
+#### Survey Parameters
 
 -   Upload date
 -   Sampler Name
@@ -37,19 +56,95 @@ This data includes the following parameters (the whole suite is not always measu
 -   Northing
 -   UTM Zone
 
+
+
+#### Kit used
+
+- Ammonia: Hanna Hi-715 Ammonia Checker
+- Phosphate: Hanna Phosphate Checker
+- Nitrate: Hach Nitrate Test Strips
+- EC: HM Digital EC-3 Meter
+- Temp: ?
+- Photos/Location: Smart Phone?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 ```{r}
 source("Extraction_Transform.R")
 
+
 ```
 
-### Example map of national nitrate data
 
-The below map shows Nitrate (ppm) as a mean per site plotted nationally. It covers an arbitrary timespan, a mean is calculated from `r range(df$Date)[1]` to today's date.
+
+Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QA/QC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN so far today:
+
+
+```{r}
+
+# Calculate two weeks ago
+
+  twowkago <- Sys.Date()- 3
+  
+#Map for samples added in last two weeks.
+
+
+Last2 <- df %>% 
+  filter(Date >= twowkago & Date <= Sys.Date())
+
+
+today <- df %>% 
+  filter(Date == Sys.Date())
+
+DT::datatable(today[,c(4:28)])
+
+
+```
+
+## Map of Angling Trust Water Quality Monitoring Network data collected today
+
+The above table is displayed below in a map. Click a site to view information, here we chose to display phosphate data.
+
+```{r National Plot}
+pal1 <- colorBin(palette = "viridis", domain=today$Phos_ppm, 
+                 bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
+
+#Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
+
+leaflet(today) %>% 
+  addProviderTiles(providers$Esri) %>% 
+     
+  addCircleMarkers(lng= ~Longitude, 
+                   lat= ~Latitude, 
+                   col=~pal1(today$Phos_ppm), 
+                   radius=8, 
+                   opacity = 1,
+                   popup = paste0("Site: ", today$Site_Name,"<br> ",
+                                  "Phosphate (ppm): ",today$Phos_ppm,
+                                  "<br> Collected at: ", today$created_at,
+                                  "<br> <b>Site Photo<b> <br>",
+                   "<img src='", today$`_Please_add_a_phot`, "' width='200' height='150'>")) %>% 
+  addLegend(pal = pal1, values = ~Phos_ppm, opacity = 0.7,
+            title="Phosphate (ppm)") 
+
+```
+
+## Applying common functions to a dataset
+
+Embedded in the map below is a mean for Nitrate values at each site. This is an example whereby additional calculations can be automatically applied to data when it arrives in the EA. This could be the application of a conversion factor, for example, to convert from one chemical species to another; as simple as converting NGR or easting, northings to WGS84; or applying means etc. The below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
+
+By clicking on the sites you can see how many samples a mean covers.
 ```{r}
 
 
 pal1 <- colorBin(palette = "viridis", domain=df$Mean_Nitrate, 
                  bins = c(0,0.5,1,2,3,4,5,10,15,20,30,40))
+
+
+# Count number of measurements at site for phosphate 
+df %<>%
+    group_by(Site_Name, Phos_ppm) %>% 
+  mutate(C = n())
 
 #Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
 
@@ -61,8 +156,12 @@ leaflet(df) %>%
                    radius=5, 
                    opacity = 1,
                    popup = paste0("Site: ",df$Site_Name,"<br> ",
-                                  "Mean Nitrate (ppm): ",df$Mean_Nitrate),
-                                  "Sample Count: ", df$Count) %>% 
+                                  "Mean Nitrate (ppm): ",df$Mean_Nitrate,
+                                  "<br> Collected at: ", df$created_at,
+                                  "<br> Mean sample count: ", df$C,
+                                  "<br> <b>Site Photo<b> <br>",
+                   "<img src='", df$`_Please_add_a_phot`, "' width='200' height='150'>")
+                                  ) %>% 
   addLegend(pal = pal1, values = ~Mean_Nitrate, opacity = 0.7,
             title="Mean Nitrate (ppm)") %>% 
   addControl(paste0("Mean Nitrate (ppm) from ", range(df$Date)[1], " to ", 
@@ -70,151 +169,47 @@ leaflet(df) %>%
              position = "bottomleft")
 
 ```
-
-By having access to our partner's data the EA can increase our intelligence on our catchments and be more economical in targeting our data.
-
-By having access to data through an API, the EA can access data in near-real-time, this means environmental decisions can be based on the latest intelligence from our partners.
-
-It also means we aren't blindsided by data from our partners and moves towards building environmental surveillance. As an example, the below table shows the data collected this morning:
-
-```{r}
-
-# Calculate two weeks ago
-
-  twowkago <- Sys.Date()- 14
-  
-#Map for samples added in last two weeks.
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Last2 <- df %>% 
-  filter(Date >= twowkago & Date <= Sys.Date())
+# Quality Assurance & Quality Control
 
+#### Values within a range
 
-pal1 <- colorBin(palette = "YlRdOr", domain=Last2$Phos_ppm, 
-                 bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
-
-#Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
-
-leaflet(Last2) %>% 
-  addProviderTiles(providers$Esri) %>% 
-  addCircleMarkers(lng= ~Longitude, 
-                   lat= ~Latitude, 
-                   col=~pal1(Mean_Nitrate), 
-                   radius=5, 
-                   opacity = 1,
-                   popup = paste0("Site: ", Last2$Site_Name,"<br> ",
-                                  "Phosphate (ppm): ",Last2$Phos_ppm),
-                                  "Collected at: ", Last2$created_at) %>% 
-  addLegend(pal = pal1, values = ~Mean_Nitrate, opacity = 0.7,
-            title="Mean Nitrate (ppm)") %>% 
-  addControl(paste0("Mean Nitrate (ppm) from ", range(df$Date)[1], " to ", 
-                    range(df$Date)[2]),
-             position = "bottomleft")
-
-```
-
-### Example QAQC
-
-#### Screening for Zeros
-
-Note Ammonia has a lot of null values
+We can screen incoming data for NULL values, or values within a particular range and remove them. 
 
 ```{r screening for zeroes}
-for (x in 1:dim(df)[2]){
-  print(paste0(colnames(df)[x], " has ", sum(is.na(df[x])), " zeroes"))
-}
+#for (x in 1:dim(df)[2]){
+ # print(paste0(colnames(df)[x], " has ", sum(is.na(df[x])), " zeroes"))
+  #}
 
 ```
 
-#### Applying a confidence classification to data when temperatures are \< 10°C and river levels are "High". High river levels are interpreted to result in turbid conditions which can skew colorimeter results.
+#### We can apply a confidence classification to data that might be suspect
+
+
+If there are conditions which tend to skew results we can apply a confidence score to this data. High river levels are interpreted to result in turbid conditions which can skew colorimeter results, temperatures less than 10°C also tend to skew results, therefore we apply a confidence column to this data. 
+
+Note the new column on the right.
 
 ```{r}
+
+
 
 # Plots of national variation in data for Cit Sci QAQC
 
-df$confidence <- ifelse(df$`Temp_°C` < 10 & df$River_level == "High", "Low", "Normal")
+Last2$confidence <- ifelse(Last2$`Temp_°C` < 10 & Last2$River_level == "High", "Low", "Normal")
 
-
-high_ri <-  df %>% filter(River_level == "High") # Storm events
-norm_ri <- df %>% filter(River_level != "High")
-
-par(mfrow = c(2,2))
-
-
-# Below here, I'm guessing by trying to gra
-
-high_river_level <- summary(high_ri)
-norm_river_level <- summary(norm_ri)
-
-stats_comp <- data.frame(Stats= row.names(high_river_level), 
-                         as.vector(high_river_level), 
-                         as.vector(norm_river_level))
-
-
-hist(df$Nitrate_ppm, breaks = 100, main = "Nitrate_ppm", xlab = "Nitrate_ppm", col = "lightblue", border = "black")
-hist(df$Phos_ppm, breaks = 100, main = "Phos_ppm", xlab = "Phos_ppm", col = "lightblue", border = "black")
-
-
-
-library(ggplot2)
-
-# The 
-ggplot(high_ri, aes(x = Phos_ppm)) +
-  geom_histogram(bins = 100, fill = "lightblue", color = "black") +
-  labs(title = "Phos_ppm high river level", x = "Phos_ppm") +
-  scale_y_continuous(limits = c(0, 200))+coord_flip()
-ggplot(norm_ri, aes(x = Phos_ppm)) +
-  geom_histogram(bins = 100, fill = "lightblue", color = "black") +
-  labs(title = "Phos_ppm normal river level", x = "Phos_ppm") +
-  scale_y_continuous(limits = c(0, 200))+coord_flip()
-
-# these could be nice violin plots
-
-
-library(ggplot2)
-
-# Create the plot with both violin and boxplot layers
-ggplot(high_ri, aes(x = "", y = Phos_ppm)) +
-  geom_violin(fill = "#6f9969", color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", fill = "#efc86e") + # Boxplot on top
-  labs(title = "Phos_ppm Distribution at High River Level", x = "", y = "Phos_ppm") +
-  scale_y_continuous(limits = c(0, 2.5)) # Adjust the y-axis limits as needed
-
-ggplot(norm_ri, aes(x = "", y = Phos_ppm)) +
-  geom_violin(fill = "#aab5d5", color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", fill = "#efc86e") + # Boxplot on top
-  labs(title = "Phos_ppm Distribution at Normal or Low River Level", x = "", y = "Phos_ppm") +
-  scale_y_continuous(limits = c(0, 2.5)) # Adjust the y-axis limits as needed
-
-
-
-df$River_level <- as.factor(df$River_level)
-
-str(df)
-df$River_level <- as.factor(df$River_level)
-
-
-# Violin plot of phos
-
-
-# See distribution change at different river leves and therein we're inferring turbidity levels.
-
-ggplot(df, aes(x = "", y = Phos_ppm)) +
-  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + # Boxplot on top
-  geom_text(data = df_counts, aes(x = "", y = -Inf, label = paste("Count: ", count)), vjust = -0.5, hjust = 0.5, size = 4) + # Add counts below the x-axis
-  labs(title = "Ammon_ppm Distribution by River Level", x = "", y = "Ammon_ppm") +
-  scale_y_continuous(limits = c(0, 2.5)) + # Adjust the y-axis limits as needed
-  facet_wrap(~ River_level, scales = "free_y") + # Create facets for each level
-  theme_minimal() + # Use a minimal theme for a cleaner look
-  theme(legend.position = "none") # Remove legend to avoid clutter
-
-
+DT::datatable(head(Last2[,c(4:8,30)]))
 
 
 ```
 
-The purpose of these plots are to understand how conditions may impact data
+### Example Analytic Plots
+
+Once the data has arrived at the EA and it has automatically undergone QA/QC, we can store this transformed data on a national database which EA analysts are provided with access to, and from there can inform our catchment planning without the time-consuming transformation of data by  analysts each time, or with different area approaches to QA/QC at different EA areas.
+
+The below graphs show phosphate and ammonia at different river levels. These plots are intended to show how meters behave in more turbid waters and after periods of rainfall.
 
 ```{r}
 
@@ -232,40 +227,46 @@ df_counts_Amm <- df %>%
     tot_count = sum(count)
   )
 
+df_counts_Elec <- df %>%
+  group_by(River_level, `_What_is_the_Elect`) %>%
+  summarise(count = n()) %>% 
+  mutate(
+    tot_count = sum(count)
+  )
+
 library(ggplot2)
 library(dplyr)
+library(plotly)
 
 # See distribution change at different river leves and therein we're inferring turbidity levels.
-ggplot(df, aes(x = "", y = Ammon_ppm)) +
-  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + # Boxplot on top
-  geom_text(data = df_counts_Amm, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + # Add counts below the x-axis
+a <- ggplot(df, aes(x = "", y = Ammon_ppm)) +
+  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + 
+  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + 
+  geom_text(data = df_counts_Amm, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + 
   labs(title = "Ammonia Distribution by River Level", x = "", y = "Ammon_ppm") +
-  scale_y_continuous(limits = c(0, 2.5)) + # Adjust the y-axis limits as needed
-  facet_wrap(~ River_level, scales = "free_y") + # Create facets for each level
-  theme_minimal() + # Use a minimal theme for a cleaner look
-  theme(legend.position = "none") # Remove legend to avoid clutter
+  scale_y_continuous(limits = c(0, 2.5)) + 
+  facet_wrap(~ River_level, scales = "free_y") + 
+  theme_minimal() + 
+  theme(legend.position = "none") 
 
 
-ggplot(df, aes(x = "", y = Phos_ppm)) +
-  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + # Boxplot on top
+b <- ggplot(df, aes(x = "", y = Phos_ppm)) +
+  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + 
+  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + 
   geom_text(data = df_counts_Phos, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + # Add counts below the x-axis
   labs(title = "Phosphate Distribution by River Level", x = "", y = "Phosphate (ppm)") +
-  scale_y_continuous(limits = c(0, 2.5)) + # Adjust the y-axis limits as needed
-  facet_wrap(~ River_level, scales = "free_y") + # Create facets for each level
-  theme_minimal() + # Use a minimal theme for a cleaner look
-  theme(legend.position = "none") # Remove legend to avoid clutter
+  scale_y_continuous(limits = c(0, 2.5)) + 
+  facet_wrap(~ River_level, scales = "free_y") + 
+  theme_minimal() + 
+  theme(legend.position = "none") 
 
-# See distribution change at different river leves and therein we're inferring turbidity levels.
-ggplot(df, aes(x = "", y = Ammon_ppm)) +
-  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + # Violin plot with some transparency
-  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + # Boxplot on top
-  geom_text(data = df_counts_Amm, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + # Add counts below the x-axis
-  labs(title = "Ammonia Distribution by River Level", x = "", y = "Ammon_ppm") +
-  scale_y_continuous(limits = c(0, 2.5)) + # Adjust the y-axis limits as needed
-  facet_wrap(~ River_level, scales = "free_y") + # Create facets for each level
-  theme_minimal() + # Use a minimal theme for a cleaner look
-  theme(legend.position = "none") # Remove legend to avoid clutter
+ggplotly(a)
+
+ggplotly(b)
+
+
 
 ```
+
+
+
