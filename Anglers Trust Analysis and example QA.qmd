@@ -1,47 +1,55 @@
 ---
-title: "Untitled"
+title: "Epicollect5 Automated QAQC example"
 format: html
 editor: visual
 ---
 
-The Angling Trust Monitoring Network Data includes the following parameters (the whole suite is not always measured at each site):
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, echo=FALSE, cache=TRUE)
+```
 
-- Upload date
-- Sampler Name
-- Site Name
-- Project title
-- River Name (doesn't match up with WFD)
-- Time of sample
-- Date
-- Weather at time of sample
-- Electrical Conductivity (not sure of units)
-- Phosphate (ppm)
-- Temperature (°C)
-- Nitrate (ppm)
-- River level (relative)
-- Sample Accuracy
-- Presence of algal blooms
-- Presence of pollution
-- Photo
-- Latitude
-- Longitude
-- Easting
-- Northing
-- UTM Zone
+The Angling Trust Water Quality Monitoring Network uses Epicollect5 as a data collection platform. This platform enables data to be share data via manual download, visualises sample points on a map in app and importantly, provides an API: enabling data to consistantly be shared in a uniform format and in near-real-time, making it prime for automation.
+
+In this example, we will explore the Angling Trust Water Quality Monitoring Network.
+
+This data includes the following parameters (the whole suite is not always measured at each site):
+
+-   Upload date
+-   Sampler Name
+-   Site Name
+-   Project title
+-   River Name (doesn't match up with WFD)
+-   Time of sample
+-   Date
+-   Weather at time of sample
+-   Electrical Conductivity (not sure of units)
+-   Phosphate (ppm)
+-   Temperature (°C)
+-   Nitrate (ppm)
+-   River level (relative)
+-   Sample Accuracy
+-   Presence of algal blooms
+-   Presence of pollution
+-   Photo
+-   Latitude
+-   Longitude
+-   Easting
+-   Northing
+-   UTM Zone
+
 ```{r}
 source("Extraction_Transform.R")
 
 ```
 
-
 ### Example map of national nitrate data
 
-
+The below map shows Nitrate (ppm) as a mean per site plotted nationally. It covers an arbitrary timespan, a mean is calculated from `r range(df$Date)[1]` to today's date.
 ```{r}
 
 
-pal1 <- colorBin(palette = "viridis", domain=df$Mean_Nitrate)
-
+pal1 <- colorBin(palette = "viridis", domain=df$Mean_Nitrate, 
+                 bins = c(0,0.5,1,2,3,4,5,10,15,20,30,40))
 
 #Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
 
@@ -49,9 +57,54 @@ leaflet(df) %>%
   addProviderTiles(providers$Esri) %>% 
   addCircleMarkers(lng= ~df$Longitude, 
                    lat= ~df$Latitude, 
-                   col=~pal1(df$Mean_Nitrate), radius=5, 
+                   col=~pal1(df$Mean_Nitrate), 
+                   radius=5, 
+                   opacity = 1,
                    popup = paste0("Site: ",df$Site_Name,"<br> ",
-                                  "Mean Nitrate (ppm): ",df$Mean_Nitrate)) %>% 
+                                  "Mean Nitrate (ppm): ",df$Mean_Nitrate),
+                                  "Sample Count: ", df$Count) %>% 
+  addLegend(pal = pal1, values = ~Mean_Nitrate, opacity = 0.7,
+            title="Mean Nitrate (ppm)") %>% 
+  addControl(paste0("Mean Nitrate (ppm) from ", range(df$Date)[1], " to ", 
+                    range(df$Date)[2]),
+             position = "bottomleft")
+
+```
+
+By having access to our partner's data the EA can increase our intelligence on our catchments and be more economical in targeting our data.
+
+By having access to data through an API, the EA can access data in near-real-time, this means environmental decisions can be based on the latest intelligence from our partners.
+
+It also means we aren't blindsided by data from our partners and moves towards building environmental surveillance. As an example, the below table shows the data collected this morning:
+
+```{r}
+
+# Calculate two weeks ago
+
+  twowkago <- Sys.Date()- 14
+  
+#Map for samples added in last two weeks.
+
+
+Last2 <- df %>% 
+  filter(Date >= twowkago & Date <= Sys.Date())
+
+
+pal1 <- colorBin(palette = "YlRdOr", domain=Last2$Phos_ppm, 
+                 bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
+
+#Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
+
+leaflet(Last2) %>% 
+  addProviderTiles(providers$Esri) %>% 
+  addCircleMarkers(lng= ~Longitude, 
+                   lat= ~Latitude, 
+                   col=~pal1(Mean_Nitrate), 
+                   radius=5, 
+                   opacity = 1,
+                   popup = paste0("Site: ", Last2$Site_Name,"<br> ",
+                                  "Phosphate (ppm): ",Last2$Phos_ppm),
+                                  "Collected at: ", Last2$created_at) %>% 
   addLegend(pal = pal1, values = ~Mean_Nitrate, opacity = 0.7,
             title="Mean Nitrate (ppm)") %>% 
   addControl(paste0("Mean Nitrate (ppm) from ", range(df$Date)[1], " to ", 
@@ -63,6 +116,7 @@ leaflet(df) %>%
 ### Example QAQC
 
 #### Screening for Zeros
+
 Note Ammonia has a lot of null values
 
 ```{r screening for zeroes}
@@ -72,8 +126,7 @@ for (x in 1:dim(df)[2]){
 
 ```
 
-#### Applying a confidence classification to data when temperatures are < 10°C and river levels are "High". High river levels are interpreted to result in turbid conditions which can skew colorimeter results.
-
+#### Applying a confidence classification to data when temperatures are \< 10°C and river levels are "High". High river levels are interpreted to result in turbid conditions which can skew colorimeter results.
 
 ```{r}
 
@@ -216,4 +269,3 @@ ggplot(df, aes(x = "", y = Ammon_ppm)) +
   theme(legend.position = "none") # Remove legend to avoid clutter
 
 ```
-
