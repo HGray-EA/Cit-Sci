@@ -1,12 +1,12 @@
 ---
-title: "Epicollect5 Automated QAQC example"
+title: "Stamp on Arrival Project"
 format: html
 editor: visual
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, echo=FALSE, cache=TRUE)
 ```
-
 
 ```{css}
 .dataTables_wrapper {
@@ -19,13 +19,16 @@ font-size: 11px;
 }
 
 ```
+
 ## Rational
 
-By utilising our partner's data, the EA can enhance its understanding of our catchments and optimize the cost-effectiveness of monitoring efforts through a hybrid approach. However, a significant challenge is the presence of errors in third-party data. By focusing on improving the methodology of citizen science monitoring and implementing an additional layer of QA/QC upon receiving the data, EA analysts and decision-makers can be more confident in the accuracy of the environmental data, enabling more informed decisions where the margin of error is constrained.
+This document outlines how we can automate the QAQC and transformation of citizen science data.
 
-## Introduction 
+By utilising our partner's data, the EA can enhance its understanding of our catchments. However, third-party schemes should undergo a layer of QA/QC upon arrival into the EA. This means our EA analysts and decision-makers can be more confident in the accuracy of the data we receive from our partners, enabling more informed decisions where margins of error are constrained.
 
-The Angling Trust Water Quality Monitoring Network (ATWQN) uses Epicollect5 as a data collection platform. This platform enables data to be shared via manual download, visualises sample points on a map in app and importantly, provides an open-access API: enabling data to consistantly be shared in a uniform format and in near-real-time, making it prime for automation.
+## Introduction
+
+Here we use the [Angling Trust Water Quality Monitoring Network](https://anglingtrust.net/wp-content/uploads/2022/12/Water-Quality-Monitoring-Network-Viewers-Pack-v2-FINAL-09.12.2022.pdf) (ATWQN) as an example citizen science scheme which we can QA and transform to then make available to the wider EA. The ATWQN uses Epicollect5 as a data collection platform. This platform enables data to be shared via manual download, visualises sample points on a map in app and importantly, like some other Citizen Science platforms provides an open-access API: enabling data to consistently be shared in a uniform format and in near-real-time.
 
 On this webpage, we will explore the Angling Trust Water Quality Monitoring Network (ATWQN), it uses the open data platform Epicollect5, which was developed by the Big Data Institute at the University of Oxford.
 
@@ -56,18 +59,16 @@ The ATWQN has been set up to capture a mixture of quantitative, qualitative and 
 -   Northing
 -   UTM Zone
 
-
-
 #### Kit used
 
-- Ammonia: Hanna Hi-715 Ammonia Checker
-- Phosphate: Hanna Phosphate Checker
-- Nitrate: Hach Nitrate Test Strips
-- EC: HM Digital EC-3 Meter
-- Temp: ?
-- Photos/Location: Smart Phone?
+-   Ammonia: Hanna Hi-715 Ammonia Checker
+-   Phosphate: Hanna Phosphate Checker
+-   Nitrate: Hach Nitrate Test Strips
+-   EC: HM Digital EC-3 Meter
+-   Temp: ?
+-   Photos/Location: Smart Phone?
 
----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ```{r}
 source("Extraction_Transform.R")
@@ -75,12 +76,10 @@ source("Extraction_Transform.R")
 
 ```
 
-
-
 Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QA/QC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN so far today:
 
-
 ```{r}
+library(tidyverse)
 
 # Calculate two weeks ago
 
@@ -106,34 +105,82 @@ DT::datatable(today[,c(4:28)])
 The above table is displayed below in a map. Click a site to view information, here we chose to display phosphate data.
 
 ```{r National Plot}
-pal1 <- colorBin(palette = "viridis", domain=today$Phos_ppm, 
-                 bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
+#pal1 <- colorBin(palette = "viridis", domain=today$Phos_ppm, 
+     #            bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
 
 #Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
 
 leaflet(today) %>% 
   addProviderTiles(providers$Esri) %>% 
      
-  addCircleMarkers(lng= ~Longitude, 
-                   lat= ~Latitude, 
-                   col=~pal1(today$Phos_ppm), 
-                   radius=8, 
+  addCircleMarkers(
+                   radius=6, 
                    opacity = 1,
+                   color = "black",
                    popup = paste0("Site: ", today$Site_Name,"<br> ",
                                   "Phosphate (ppm): ",today$Phos_ppm,
                                   "<br> Collected at: ", today$created_at,
                                   "<br> <b>Site Photo<b> <br>",
-                   "<img src='", today$`_Please_add_a_phot`, "' width='200' height='150'>")) %>% 
-  addLegend(pal = pal1, values = ~Phos_ppm, opacity = 0.7,
-            title="Phosphate (ppm)") 
+                   "<img src='", today$`_Please_add_a_phot`, "' width='200' height='150'>")) 
+
+```
+
+------------------------------------------------------------------------
+
+# Quality Assurance & Quality Control
+
+#### Values within a range
+
+We can screen incoming data for NULL values, or values within a particular range and remove them.
+
+```{r screening for zeroes}
+#for (x in 1:dim(df)[2]){
+ # print(paste0(colnames(df)[x], " has ", sum(is.na(df[x])), " zeroes"))
+  #}
+
+```
+
+#### Removing dupicates
+
+If there are duplicate surveys, for example, if a surveyor accidentally submits results twice. These can be screened and removed.
+
+The below data table has had duplicates removed. We have now saved the upstream analyst some time.
+```{r}
+
+today <- unique(today)
+
+
+DT::datatable(today[,c(4:28)])
+```
+
+
+
+
+#### Adding columns
+
+If there are conditions which tend to skew results we can apply a confidence score to this data and populate a new column. High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results which are designed for use in aquariums, but offer a cheaper alternative for Citizen Science water quality projects. Temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data.
+
+Note the new column on the right.
+
+```{r}
+
+
+
+# Plots of national variation in data for Cit Sci QAQC
+
+Last2$confidence <- ifelse(Last2$`Temp_°C` < 10 & Last2$River_level == "High", "Low", "Normal")
+
+DT::datatable(head(Last2[,c(4:8,30)]))
+
 
 ```
 
 ## Applying common functions to a dataset
 
-Embedded in the map below is a mean for Nitrate values at each site. This is an example whereby additional calculations can be automatically applied to data when it arrives in the EA. This could be the application of a conversion factor, for example, to convert from one chemical species to another; as simple as converting NGR or easting, northings to WGS84; or applying means etc. The below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
+Additional calculations can be automatically applied to data when it arrives at the EA. This could be the application of a conversion factor, for example, to convert from one chemical species to another; converting easting and northings to lat and long; or applying means etc. The below map explores some of the ATWQM nitrate data. The below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
 
 By clicking on the sites you can see how many samples a mean covers.
+
 ```{r}
 
 
@@ -169,47 +216,12 @@ leaflet(df) %>%
              position = "bottomleft")
 
 ```
----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-# Quality Assurance & Quality Control
-
-#### Values within a range
-
-We can screen incoming data for NULL values, or values within a particular range and remove them. 
-
-```{r screening for zeroes}
-#for (x in 1:dim(df)[2]){
- # print(paste0(colnames(df)[x], " has ", sum(is.na(df[x])), " zeroes"))
-  #}
-
-```
-
-#### We can apply a confidence classification to data that might be suspect
-
-
-If there are conditions which tend to skew results we can apply a confidence score to this data. High river levels are interpreted to result in turbid conditions which can skew colorimeter results, temperatures less than 10°C also tend to skew results, therefore we apply a confidence column to this data. 
-
-Note the new column on the right.
-
-```{r}
-
-
-
-# Plots of national variation in data for Cit Sci QAQC
-
-Last2$confidence <- ifelse(Last2$`Temp_°C` < 10 & Last2$River_level == "High", "Low", "Normal")
-
-DT::datatable(head(Last2[,c(4:8,30)]))
-
-
-```
 
 ### Example Analytic Plots
 
-Once the data has arrived at the EA and it has automatically undergone QA/QC, we can store this transformed data on a national database which EA analysts are provided with access to, and from there can inform our catchment planning without the time-consuming transformation of data by  analysts each time, or with different area approaches to QA/QC at different EA areas.
+Once the data has arrived at the EA and it has automatically undergone QAQC, we can store this transformed data on a national database which EA analysts are provided with access to. From here they can inform our catchment planning without the time-consuming transformation of data by individual analysts each time they get new citizen science data. Or with different EA area approaches to QAQC.
 
-The below graphs show phosphate and ammonia at different river levels. These plots are intended to show how meters behave in more turbid waters and after periods of rainfall.
+The below graphs are arbitrary example plots. Here we show phosphate and ammonia at different river levels. These plots are intended to show how meters behave at different river levels and after periods of rainfall.
 
 ```{r}
 
@@ -267,6 +279,3 @@ ggplotly(b)
 
 
 ```
-
-
-
