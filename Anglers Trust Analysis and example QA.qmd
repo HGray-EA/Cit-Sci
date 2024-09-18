@@ -76,24 +76,23 @@ source("Extraction_Transform.R")
 
 ```
 
-Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QA/QC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN so far today:
+Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QA/QC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN over the last 3 days:
 
 ```{r}
 library(tidyverse)
 
-# Calculate two weeks ago
+#  3 days ago
 
   twowkago <- Sys.Date()- 3
   
 #Map for samples added in last two weeks.
 
 
-Last2 <- df %>% 
+today <- df %>% 
   filter(Date >= twowkago & Date <= Sys.Date())
 
 
-today <- df %>% 
-  filter(Date == Sys.Date())
+
 
 DT::datatable(today[,c(4:28)])
 
@@ -142,9 +141,10 @@ We can screen incoming data for NULL values, or values within a particular range
 
 #### Removing dupicates
 
-If there are duplicate surveys, for example, if a surveyor accidentally submits results twice. These can be screened and removed.
+If there are duplicate surveys, these can be screened and removed.
 
 The below data table has had duplicates removed. We have now saved the upstream analyst some time.
+
 ```{r}
 
 today <- unique(today)
@@ -152,9 +152,6 @@ today <- unique(today)
 
 DT::datatable(today[,c(4:28)])
 ```
-
-
-
 
 #### Adding columns
 
@@ -168,16 +165,16 @@ Note the new column on the right.
 
 # Plots of national variation in data for Cit Sci QAQC
 
-Last2$confidence <- ifelse(Last2$`Temp_°C` < 10 & Last2$River_level == "High", "Low", "Normal")
+today$confidence <- ifelse(today$`Temp_°C` < 10 & today$River_level == "High", "Low", "Normal")
 
-DT::datatable(head(Last2[,c(4:8,30)]))
+DT::datatable(head(today[,c(4:8,30)]))
 
 
 ```
 
-## Applying common functions to a dataset
+## Applying calculations to a dataset
 
-Additional calculations can be automatically applied to data when it arrives at the EA. This could be the application of a conversion factor, for example, to convert from one chemical species to another; converting easting and northings to lat and long; or applying means etc. The below map explores some of the ATWQM nitrate data. The below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
+Additional calculations can be automatically applied to data when it arrives at the EA. This could be the application of a conversion factor; converting easting and northings to lat and long; or applying statistics. The below map explores some of the ATWQM nitrate data. Here we've applied a mean, the below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
 
 By clicking on the sites you can see how many samples a mean covers.
 
