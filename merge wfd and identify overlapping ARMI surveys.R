@@ -63,16 +63,26 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
  #Convert dates
   ARMI_Twin$Recorded..Date <- dmy(ARMI_Twin$Recorded..Date)
   
-  ARMI_Twin <- unique(ARMI_Twin)
-  
   AT_Twin <- unique(AT_Twin)
+  ARMI_Twin <- unique(ARMI_Twin)
+  # There's repeat ARMI surveys, so AT doesn't equal ARMI dates
   
   
-  ARMI_Twin %>% filter(Recorded..Date == AT_Twin$Date)
-  # Join AT & ARMI
+  leaflet() %>% 
+    addProviderTiles(providers$Esri) %>% 
+      addCircleMarkers(data=AT_Twin) %>% 
+    addCircleMarkers(data=ARMI_Twin,
+                     col="seagreen",
+                     radius=3)
+  
+  
+  
+  
+  # Generate UIDs in ARMI_Twin and propagate to AT_Twin via date matching
   ARMI_Twin_2 <- ARMI_Twin %>%
     st_drop_geometry() %>% 
-    inner_join(AT_Twin, by = c("Recorded..Date" = "Date"), relationship = "many-to-many") 
+    inner_join(AT_Twin, by = c("Recorded..Date" = "Date")) #%>%
+    mutate(AT_ARMI_UID = paste0(uuid::UUIDgenerate(), row_number()))
   
   # Step 7: Assign the generated UIDs to the matched sites in AT_Twin
   AT_Twin_2 <- AT_Twin %>%
