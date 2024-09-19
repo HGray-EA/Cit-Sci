@@ -214,6 +214,79 @@ leaflet(df) %>%
 
 ```
 
+### Transforming and linking datasets
+
+We can also transform citizen science data so that it matches our own monitoring data. In this example, we perform a spatial join on the ATWQMN data assigning monitoring sites to WFD waterbodies so that our catchment planning practitioners can filter this external data by EA waterbodies. This is a necessary step and saves our EA analysts time. Scroll right to now see that WFD data has been assigned.
+
+```{r}
+
+source("WFD_st_is_within_Transforms.R")
+
+DT::datatable(head(joined[,c(2:15, 32,37,38,40)]))
+
+```
+
+We can also link citizen science data: it may be useful to link additional lines of evidence adding resolution to cit sci data. Here we link ATWQMN data with Riverfly Monitoring Initiative (RMI) data, although these are from different organisations, this can be carried our in-real-time and surveys linked by a unique identifier based on their proximity. Here surveys within a 50m radius are paired.
+
+The below map shows sites which have associated RMI and ATWQMN data. Zoom in to explore this data. Data hasn't been filtered for surveys to be on the same date, although we could do this.
+
+```{r}
+
+leaflet() %>% 
+  addProviderTiles(providers$Esri) %>% 
+  setView(lat= 51.04692740967973, lng = -1.417165558064123, zoom=10) %>% 
+  addCircleMarkers(data=AT_Twin,
+                   col="blue",
+                   radius=4,
+                   popup = paste0("Date of Survey: ", AT_Twin$Date, 
+                                  "<br>Time: ", AT_Twin$`_At_what_time_was_t`,
+                                  "<br>River: ", AT_Twin$River_Name,
+                                  "<br>Phosphate: ", AT_Twin$Phos_ppm,
+                                  "<br>EC: ", AT_Twin$`_What_is_the_Elect`),
+                   group = "ATWQMN Paired Data"
+                   )%>% 
+  addCircleMarkers(data=ARMI_Twin,
+                   col="seagreen",
+                   radius=2,
+                   popup = paste0("Date of Survey: ", ARMI_Twin$Recorded..Date,
+                                  "<br>Time: ", ARMI_Twin$Recorded..Time,
+                                  "<br>River: ", ARMI_Twin$River,
+                                  "<br>Score: ", ARMI$ARMI.Total),
+                   group = "ARMI Paired Data") %>% 
+  addCircleMarkers(data= df_sf,
+                   col = "blue",
+                   radius = 4,
+                    popup = paste0("Date of Survey: ", df_sf$Date, 
+                                  "<br>Time: ", df_sf$`_At_what_time_was_t`,
+                                  "<br>River: ", df_sf$River_Name,
+                                  "<br>Phosphate: ", df_sf$Phos_ppm,
+                                  "<br>EC: ", df_sf$`_What_is_the_Elect`),
+                   group = "All ATWQMN Data") %>% 
+   addCircleMarkers(data=ARMI,
+                   col="seagreen2",
+                   radius=3,
+                   popup = paste0("Date of Survey: ", ARMI$Recorded..Date,
+                                  "<br>Time: ", ARMI$Recorded..Time,
+                                  "<br>River: ", ARMI$River,
+                                  "<br>Score: ", ARMI$ARMI.Total),
+                   group = "All ARMI Data") %>% 
+  addLayersControl(overlayGroups = c( "All ATWQMN Data",
+              "All ARMI Data",
+              "ATWQMN Paired Data",
+              "ARMI Paired Data"),
+                   position = "topright",
+                   options= layersControlOptions(collapsed=FALSE)) %>% 
+  hideGroup(c("All ATWQMN Data",
+              "All ARMI Data")) %>% 
+  addLegend(
+          position = "bottomright",
+          colors = c("blue", "seagreen"),
+          labels = c("ATWQMN Data", "ARMI Data"),
+          opacity = 0.9,
+                      title = "Data Sources")
+
+```
+
 ### Example Analytic Plots
 
 Once the data has arrived at the EA and it has automatically undergone QAQC, we can store this transformed data on a national database which EA analysts are provided with access to. From here they can inform our catchment planning without the time-consuming transformation of data by individual analysts each time they get new citizen science data. Or with different EA area approaches to QAQC.

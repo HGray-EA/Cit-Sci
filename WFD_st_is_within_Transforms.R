@@ -31,11 +31,8 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
   
 # Convert from df to sf
   ARMI <- ARMI %>%
-    st_as_sf(coords = c("Location..Easting", "Location..Northing"), crs = 27700) %>%
-    st_transform(crs = 4326)
-  
-  df_sf <- st_transform(df_sf, crs = 4326)
-  
+    st_as_sf(coords = c("Location..Easting", "Location..Northing"), crs = 27700) 
+
 # Find ARMI sites within 50m of df_sf using st_within_distance()
   within_distances <- st_is_within_distance(ARMI, df_sf, dist = 50)
   
@@ -62,16 +59,8 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
   ARMI_Twin <- unique(ARMI_Twin)
   # There's repeat ARMI surveys, so AT doesn't equal ARMI dates
   
-  
-  leaflet() %>% 
-    addProviderTiles(providers$Esri) %>% 
-      addCircleMarkers(data=AT_Twin,
-                       popup = paste0(AT_Twin$Date)) %>% 
-    addCircleMarkers(data=ARMI_Twin,
-                     col="seagreen",
-                     radius=3,
-                     popup = paste0(ARMI_Twin$Recorded..Date))
-  
+ ARMI_Twin <-  st_transform(ARMI_Twin, 4326)
+ AT_Twin <- st_transform(AT_Twin, 4326)
 
 # Haven't given a unique identifier have just kept with index  
 
