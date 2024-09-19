@@ -155,7 +155,7 @@ DT::datatable(today[,c(4:28)])
 
 #### Adding columns
 
-If there are conditions which tend to skew results we can apply a confidence score to this data and populate a new column. High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results which are designed for use in aquariums, but offer a cheaper alternative for Citizen Science water quality projects. Temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data.
+If there are conditions which tend to skew results we can apply a confidence score to this data and populate a new column. High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results which offer a cheaper alternative for Citizen Science water quality projects. Temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data when these results are recorded.
 
 Note the new column on the right.
 
@@ -222,7 +222,7 @@ We can also transform citizen science data so that it matches our own monitoring
 
 source("WFD_st_is_within_Transforms.R")
 
-DT::datatable(head(joined[,c(2:15, 32,37,38,40)]))
+DT::datatable(head(joined[,c(2:15, 32,36:40)]))
 
 ```
 

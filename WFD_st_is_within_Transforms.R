@@ -11,6 +11,10 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
 
 # Transform from 4326 to planar 27700 so easier for spatial computation
   wfd_sf %<>% st_transform(crs= 27700)
+  
+  # Remove NA values 
+  df %<>% filter(!is.na(Longitude) &!is.na(Latitude)) 
+  
   df_sf <- st_as_sf(df, coords = c("Longitude", "Latitude"), crs=4326)
 
 # Transform it into planar geometry
@@ -20,8 +24,7 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
      joined <-  st_join(df_sf, wfd_sf)
 
 ######
-# Remove NA values 
-  df %<>% filter(!is.na(Longitude) &!is.na(Latitude)) 
+
      
 #Load 
   ARMI <- read.csv("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.uk/CEP/Riverfly_bulk_download_2000_180924.csv")
