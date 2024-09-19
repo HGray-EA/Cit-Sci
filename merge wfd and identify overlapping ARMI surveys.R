@@ -1,54 +1,45 @@
 # Script which merges with CDE data to ascribe wbs to monitoring points
 
+library(sf)
+library(tidyverse)
+library(lubridate)
+library(uuid)
+library(purrr)
+library(sf)
+
 wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.uk/CDE/England_Shapefile.shp")
 
 # Transform from 4326 to planar 27700 so easier for spatial computation
   wfd_sf %<>% st_transform(crs= 27700)
-  today_sf <- st_as_sf(today, coords = c("Longitude", "Latitude"), crs=4326)
+  df_sf <- st_as_sf(df, coords = c("Longitude", "Latitude"), crs=4326)
 
 # Transform it into planar geometry
-  today_sf <- st_transform(today_sf, crs = 27700)
+  df_sf <- st_transform(df_sf, crs = 27700)
   
 # Spatial join
-     today_sf <-  st_join(today_sf, wfd_sf)
-
+     joined <-  st_join(df_sf, wfd_sf)
 
 ######
 # Remove NA values 
   df %<>% filter(!is.na(Longitude) &!is.na(Latitude)) 
      
-     
-  df_sf <-  st_as_sf(df, coords = c("Longitude", "Latitude"), crs=4326) %>% 
-       st_transform(df_sf, crs = 27700)
-
-
-# Load ARMI data and then transform it & convert to spatial object
-  library(sf)
-  library(dplyr)
-  library(lubridate)
-  library(uuid)
-  library(purrr)
-  library(tidyr)
-  library(sf)
-  
-  # Step 1: Read the CSV and filter out missing coordinates
+#Load 
   ARMI <- read.csv("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.uk/CEP/Riverfly_bulk_download_2000_180924.csv")
-  
+# Remove NAs  
   ARMI <- ARMI %>%
     filter(!is.na(Location..Easting) & !is.na(Location..Northing))
   
-  # Step 2: Convert ARMI to sf object (EPSG:27700) and then to EPSG:4326
+# Convert from df to sf
   ARMI <- ARMI %>%
     st_as_sf(coords = c("Location..Easting", "Location..Northing"), crs = 27700) %>%
     st_transform(crs = 4326)
   
-  # Assuming df_sf is already in sf format, ensure it is in EPSG:4326 as well
   df_sf <- st_transform(df_sf, crs = 4326)
   
-  # Step 3: Find ARMI sites within 50m of df_sf using st_within_distance()
+# Find ARMI sites within 50m of df_sf using st_within_distance()
   within_distances <- st_is_within_distance(ARMI, df_sf, dist = 50)
   
-  # Step 4: Convert the result of st_within_distance into a flat data frame using purrr::map_dfr()
+# Step 4: Convert the result of st_within_distance into a flat data frame using purrr::map_dfr()
   results_df <- map_dfr(seq_along(within_distances), ~{
     tibble(
       ARMI_index = .x,
@@ -60,6 +51,10 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
   ARMI_Twin <- ARMI[results_df$ARMI_index, ]
   AT_Twin <- df_sf[results_df$df_sf_index, ]
   
+  #Assign index from which to join.
+  ARMI_Twin$index <- results_df$df_sf_index
+  AT_Twin$index <- results_df$df_sf_index
+  
  #Convert dates
   ARMI_Twin$Recorded..Date <- dmy(ARMI_Twin$Recorded..Date)
   
@@ -70,17 +65,26 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
   
   leaflet() %>% 
     addProviderTiles(providers$Esri) %>% 
-      addCircleMarkers(data=AT_Twin) %>% 
+      addCircleMarkers(data=AT_Twin,
+                       popup = paste0(AT_Twin$Date)) %>% 
     addCircleMarkers(data=ARMI_Twin,
                      col="seagreen",
-                     radius=3)
+                     radius=3,
+                     popup = paste0(ARMI_Twin$Recorded..Date))
   
   
   
   
   # Generate UIDs in ARMI_Twin and propagate to AT_Twin via date matching
+  
+  AT_Twin <- st_drop_geometry(AT_Twin)
+  ARMI_Twin <- st_drop_geometry(ARMI_Twin)
+  
+# Currently our surveys have an index column which twins them by location within 50m but not by date.
+#There are multiple dates from 
+  
   ARMI_Twin_2 <- ARMI_Twin %>%
-    st_drop_geometry() %>% 
+    group_by(index) %>% 
     inner_join(AT_Twin, by = c("Recorded..Date" = "Date")) #%>%
     mutate(AT_ARMI_UID = paste0(uuid::UUIDgenerate(), row_number()))
   
