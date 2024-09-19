@@ -72,35 +72,18 @@ wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.
                      radius=3,
                      popup = paste0(ARMI_Twin$Recorded..Date))
   
+
+# Haven't given a unique identifier have just kept with index  
+
   
-  
-  
-  # Generate UIDs in ARMI_Twin and propagate to AT_Twin via date matching
-  
-  AT_Twin <- st_drop_geometry(AT_Twin)
-  ARMI_Twin <- st_drop_geometry(ARMI_Twin)
-  
-# Currently our surveys have an index column which twins them by location within 50m but not by date.
-#There are multiple dates from 
-  
-  ARMI_Twin_2 <- ARMI_Twin %>%
-    group_by(index) %>% 
-    inner_join(AT_Twin, by = c("Recorded..Date" = "Date")) #%>%
-    mutate(AT_ARMI_UID = paste0(uuid::UUIDgenerate(), row_number()))
+#  ARMI_Twin_2 <- ARMI_Twin %>%
+#    inner_join(AT_Twin, by = index) #%>%
+#    mutate(AT_ARMI_UID = paste0(uuid::UUIDgenerate(), row_number()))
   
   # Step 7: Assign the generated UIDs to the matched sites in AT_Twin
-  AT_Twin_2 <- AT_Twin %>%
-    mutate(AT_ARMI_UID = ARMI_Twin_2$AT_ARMI_UID)
+#  AT_Twin_2 <- AT_Twin %>%
+#    mutate(AT_ARMI_UID = ARMI_Twin_2$AT_ARMI_UID)
   
-  # Step 8: Ensure the spatial objects are in EPSG:4326, if necessary (done earlier)
-  ARMI_Twin_2 <- st_transform(ARMI_Twin_2, 4326)
-  AT_Twin_2 <- st_transform(AT_Twin_2, 4326)
-  
-  # Final results
-  print(ARMI_Twin_2)
-  print(AT_Twin_2)
-  
-
 
 
 
