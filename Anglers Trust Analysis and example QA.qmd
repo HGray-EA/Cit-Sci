@@ -1,7 +1,15 @@
 ---
 title: "Stamp on Arrival Project"
-format: html
+author: H.Gray
+Date: 17/09/24
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    title-block-banner: "#008531"
+    theme: paper
 editor: visual
+
 ---
 
 ```{r setup, include=FALSE}
@@ -22,17 +30,21 @@ font-size: 11px;
 
 ## Rational
 
-This document outlines how we can automate the QAQC and transformation of citizen science data.
+This document outlines how we can automate the QAQC *and* transformation of citizen science data upon its arrival in the EA.
 
-By utilising our partner's data, the EA can enhance its understanding of our catchments. However, third-party schemes should undergo a layer of QA/QC upon arrival into the EA. This means our EA analysts and decision-makers can be more confident in the accuracy of the data we receive from our partners, enabling more informed decisions where margins of error are constrained.
+By utilising our partner's data, the EA can enhance its understanding of our catchments. Following data being collected to a quality assured methodology, we can subject this data to a second step of quality assurance and quality control upon arrival at the EA.
+
+We can also transform this external data so that it is EA analyst friendly and interoperable with other EA datasets. Together, this means external data is easier for our EA analysts to use and decision-makers can be more confident in the accuracy of the data we receive from our partners, enabling more informed decisions.
+
+These kind of automated processes are commonly known as an ETL pipeline or [RAP](https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/) in Data Science. Here we use the Defra Analysis & Science Hub platform to perfom this computation. The benefits of RAPs can be found by clicking the hyperlink above.
 
 ## Introduction
 
-Here we use the [Angling Trust Water Quality Monitoring Network](https://anglingtrust.net/wp-content/uploads/2022/12/Water-Quality-Monitoring-Network-Viewers-Pack-v2-FINAL-09.12.2022.pdf) (ATWQN) as an example citizen science scheme which we can QA and transform to then make available to the wider EA. The ATWQN uses Epicollect5 as a data collection platform. This platform enables data to be shared via manual download, visualises sample points on a map in app and importantly, like some other Citizen Science platforms provides an open-access API: enabling data to consistently be shared in a uniform format and in near-real-time.
+In this document we use the [Angling Trust Water Quality Monitoring Network](https://anglingtrust.net/wp-content/uploads/2022/12/Water-Quality-Monitoring-Network-Viewers-Pack-v2-FINAL-09.12.2022.pdf) (ATWQN) as an example citizen science scheme which we can QA and transform and then make available to the wider EA. The ATWQN uses Epicollect5 as a data collection platform. This platform enables data to be shared via manual download, on a map in app and, like some other Citizen Science platforms provides an open-access API: enabling data to consistently be shared in a uniform format and in near-real-time.
 
 On this webpage, we will explore the Angling Trust Water Quality Monitoring Network (ATWQN), it uses the open data platform Epicollect5, which was developed by the Big Data Institute at the University of Oxford.
 
-The ATWQN has been set up to capture a mixture of quantitative, qualitative and observational water quality data. The following parameters are recorded:
+The ATWQN has been set up to capture a mixture of quantitative and observational water quality data. The following parameters are recorded:
 
 #### Survey Parameters
 
@@ -76,7 +88,7 @@ source("Extraction_Transform.R")
 
 ```
 
-Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QA/QC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN over the last 3 days:
+Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QAQC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN over the last 3 days:
 
 ```{r}
 library(tidyverse)
@@ -99,7 +111,7 @@ DT::datatable(today[,c(4:28)])
 
 ```
 
-## Map of Angling Trust Water Quality Monitoring Network data collected today
+## Map of Angling Trust Water Quality Monitoring Network data collected over last 3 days
 
 The above table is displayed below in a map. Click a site to view information, here we chose to display phosphate data.
 
@@ -126,7 +138,7 @@ leaflet(today) %>%
 
 ------------------------------------------------------------------------
 
-# Quality Assurance & Quality Control
+## Quality Assurance & Quality Control
 
 #### Values within a range
 
@@ -155,7 +167,9 @@ DT::datatable(today[,c(4:28)])
 
 #### Adding columns
 
-If there are conditions which tend to skew results we can apply a confidence score to this data and populate a new column. High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results which offer a cheaper alternative for Citizen Science water quality projects. Temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data when these results are recorded.
+If there are conditions which tend to skew results we could apply a confidence score to this data and populate a new column.
+
+High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results, temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data when these results are recorded.
 
 Note the new column on the right.
 
@@ -167,12 +181,12 @@ Note the new column on the right.
 
 today$confidence <- ifelse(today$`Temp_°C` < 10 & today$River_level == "High", "Low", "Normal")
 
-DT::datatable(head(today[,c(4:8,30)]))
+DT::datatable(head(today[,c(4:28,30)]))
 
 
 ```
 
-## Applying calculations to a dataset
+#### Applying calculations to a dataset
 
 Additional calculations can be automatically applied to data when it arrives at the EA. This could be the application of a conversion factor; converting easting and northings to lat and long; or applying statistics. The below map explores some of the ATWQM nitrate data. Here we've applied a mean, the below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
 
@@ -214,7 +228,7 @@ leaflet(df) %>%
 
 ```
 
-### Transforming and linking datasets
+## Transforming and linking datasets
 
 We can also transform citizen science data so that it matches our own monitoring data. In this example, we perform a spatial join on the ATWQMN data assigning monitoring sites to WFD waterbodies so that our catchment planning practitioners can filter this external data by EA waterbodies. This is a necessary step and saves our EA analysts time. Scroll right to now see that WFD data has been assigned.
 
@@ -222,13 +236,13 @@ We can also transform citizen science data so that it matches our own monitoring
 
 source("WFD_st_is_within_Transforms.R")
 
-DT::datatable(head(joined[,c(2:15, 32,36:40)]))
+DT::datatable(head(joined[,c(2:15, 32,36:37, 39:40)]))
 
 ```
 
-We can also link citizen science data: it may be useful to link additional lines of evidence adding resolution to cit sci data. Here we link ATWQMN data with Riverfly Monitoring Initiative (RMI) data, although these are from different organisations, this can be carried our in-real-time and surveys linked by a unique identifier based on their proximity. Here surveys within a 50m radius are paired.
+We can also link citizen science data: it may be useful to link additional lines of evidence adding resolution to cit sci data. Here we link ATWQMN data with Riverfly Monitoring Initiative (RMI) data, although these are from different organisations, unique identifiers can be applied based on their proximity. Here surveys within a 50m radius are paired.
 
-The below map shows sites which have associated RMI and ATWQMN data. Zoom in to explore this data. Data hasn't been filtered for surveys to be on the same date, although we could do this.
+The below map shows sites which have associated RMI and ATWQMN data. Zoom in to explore this data. Data hasn't been filtered for surveys to be on the same date, although this is viable.
 
 ```{r}
 
@@ -243,8 +257,7 @@ leaflet() %>%
                                   "<br>River: ", AT_Twin$River_Name,
                                   "<br>Phosphate: ", AT_Twin$Phos_ppm,
                                   "<br>EC: ", AT_Twin$`_What_is_the_Elect`),
-                   group = "ATWQMN Paired Data"
-                   )%>% 
+                   group = "ATWQMN Paired Data")%>% 
   addCircleMarkers(data=ARMI_Twin,
                    col="seagreen",
                    radius=2,
@@ -253,31 +266,11 @@ leaflet() %>%
                                   "<br>River: ", ARMI_Twin$River,
                                   "<br>Score: ", ARMI$ARMI.Total),
                    group = "ARMI Paired Data") %>% 
-  addCircleMarkers(data= df_sf,
-                   col = "blue",
-                   radius = 4,
-                    popup = paste0("Date of Survey: ", df_sf$Date, 
-                                  "<br>Time: ", df_sf$`_At_what_time_was_t`,
-                                  "<br>River: ", df_sf$River_Name,
-                                  "<br>Phosphate: ", df_sf$Phos_ppm,
-                                  "<br>EC: ", df_sf$`_What_is_the_Elect`),
-                   group = "All ATWQMN Data") %>% 
-   addCircleMarkers(data=ARMI,
-                   col="seagreen2",
-                   radius=3,
-                   popup = paste0("Date of Survey: ", ARMI$Recorded..Date,
-                                  "<br>Time: ", ARMI$Recorded..Time,
-                                  "<br>River: ", ARMI$River,
-                                  "<br>Score: ", ARMI$ARMI.Total),
-                   group = "All ARMI Data") %>% 
-  addLayersControl(overlayGroups = c( "All ATWQMN Data",
-              "All ARMI Data",
+  addLayersControl(overlayGroups = c(
               "ATWQMN Paired Data",
               "ARMI Paired Data"),
                    position = "topright",
                    options= layersControlOptions(collapsed=FALSE)) %>% 
-  hideGroup(c("All ATWQMN Data",
-              "All ARMI Data")) %>% 
   addLegend(
           position = "bottomright",
           colors = c("blue", "seagreen"),
@@ -287,9 +280,7 @@ leaflet() %>%
 
 ```
 
-### Example Analytic Plots
-
-Once the data has arrived at the EA and it has automatically undergone QAQC, we can store this transformed data on a national database which EA analysts are provided with access to. From here they can inform our catchment planning without the time-consuming transformation of data by individual analysts each time they get new citizen science data. Or with different EA area approaches to QAQC.
+#### Analytical Plots
 
 The below graphs are arbitrary example plots. Here we show phosphate and ammonia at different river levels. These plots are intended to show how meters behave at different river levels and after periods of rainfall.
 
@@ -349,3 +340,9 @@ ggplotly(b)
 
 
 ```
+
+## Summary
+
+The below schematic visualises the above process. You can find out more about the DASH platform on the EA Sharepoint.
+
+![Citizen Science Data Flow Diagram](DFD.png){fig-align="center"}
