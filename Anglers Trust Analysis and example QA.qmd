@@ -9,7 +9,6 @@ format:
     title-block-banner: "#008531"
     theme: paper
 editor: visual
-
 ---
 
 ```{r setup, include=FALSE}
@@ -83,7 +82,12 @@ The ATWQN has been set up to capture a mixture of quantitative and observational
 ------------------------------------------------------------------------
 
 ```{r}
-source("Extraction_Transform.R")
+
+library(leaflet)
+library(magrittr)
+library(tidyverse)
+
+df <- read.csv("/dbfs/FileStore/WSX_HGray/ETL_Exports/ATWQMN_Cit_Sci.csv")
 
 
 ```
@@ -91,7 +95,7 @@ source("Extraction_Transform.R")
 Access to Citizen Science data through APIs offers an easy starting place to access citizen science data in a way in which embedding QAQC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN over the last 3 days:
 
 ```{r}
-library(tidyverse)
+
 
 #  3 days ago
 
@@ -124,11 +128,8 @@ The above table is displayed below in a map. Click a site to view information, h
 leaflet(today) %>% 
   addProviderTiles(providers$Esri) %>% 
      
-  addCircleMarkers(
-                   radius=6, 
-                   opacity = 1,
-                   color = "black",
-                   popup = paste0("Site: ", today$Site_Name,"<br> ",
+  addMarkers(
+                  popup = paste0("Site: ", today$Site_Name,"<br> ",
                                   "Phosphate (ppm): ",today$Phos_ppm,
                                   "<br> Collected at: ", today$created_at,
                                   "<br> <b>Site Photo<b> <br>",
@@ -179,7 +180,7 @@ Note the new column on the right.
 
 # Plots of national variation in data for Cit Sci QAQC
 
-today$confidence <- ifelse(today$`Temp_°C` < 10 & today$River_level == "High", "Low", "Normal")
+today$confidence <- ifelse(today$Temp_.C < 10 & today$River_level == "High", "Low", "Normal")
 
 DT::datatable(head(today[,c(4:28,30)]))
 
@@ -208,6 +209,7 @@ df %<>%
 
 leaflet(df) %>% 
   addProviderTiles(providers$Esri) %>% 
+  setView(-1.916300433104264,53.15126385469105, zoom = 5.5) %>% 
   addCircleMarkers(lng= ~df$Longitude, 
                    lat= ~df$Latitude, 
                    col=~pal1(df$Mean_Nitrate), 
@@ -301,7 +303,7 @@ df_counts_Amm <- df %>%
   )
 
 df_counts_Elec <- df %>%
-  group_by(River_level, `_What_is_the_Elect`) %>%
+  group_by(River_level, X_What_is_the_Elect) %>%
   summarise(count = n()) %>% 
   mutate(
     tot_count = sum(count)
