@@ -1,5 +1,3 @@
-## Citizen Science QAQC
+## Citizen Science Data Working Group Repo
 
-Quality Assurance of open-access citizen science schemes in the UK, to provide a proof of concept to the Environment Agency of the use of this data in a way in which its uncertainty is constrained.
-
-A data pipeline which embeds QAQC to third-party data when it arrives at the Environment Agency.
+Provide Quality Assurance of open-access citizen science schemes in the UK, provide ETL and visualisation proof of concepts to the Environment Agency of the use of this data in a way in which its uncertainty is constrained.
