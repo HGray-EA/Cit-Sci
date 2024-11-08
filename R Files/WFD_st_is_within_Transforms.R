@@ -5,7 +5,7 @@ library(tidyverse)
 library(lubridate)
 library(uuid)
 library(purrr)
-library(sf)
+library(magrittr)
 
 wfd_sf <- read_sf("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.uk/CDE/England_Shapefile.shp")
 
