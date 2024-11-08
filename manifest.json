@@ -43,7 +43,7 @@
         "Maintainer": "Kirill Müller <kirill@cynkra.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-06-02 21:50:02 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:29:13 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:00 UTC; unix"
       }
     },
     "DT": {
@@ -70,7 +70,7 @@
         "Maintainer": "Joe Cheng <joe@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2024-04-04 05:03:17 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:46:26 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:43 UTC; unix"
       }
     },
     "KernSmooth": {
@@ -589,7 +589,7 @@
         "Maintainer": "Roger Bivand <Roger.Bivand@nhh.no>",
         "Repository": "CRAN",
         "Date/Publication": "2023-09-05 13:00:06 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:29:17 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:04 UTC; unix"
       }
     },
     "cli": {
@@ -617,7 +617,7 @@
         "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-06-21 21:00:07 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:37:07 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:09 UTC; unix"
       }
     },
     "clipr": {
@@ -731,7 +731,7 @@
         "Maintainer": "Claus O. Wilke <wilke@austin.utexas.edu>",
         "Repository": "CRAN",
         "Date/Publication": "2024-01-22 23:22:51 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:48:41 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 06:00:34 UTC; unix"
       }
     },
     "cpp11": {
@@ -740,13 +740,14 @@
       "description": {
         "Package": "cpp11",
         "Title": "A C++11 Interface for R's C Interface",
-        "Version": "0.4.4",
+        "Version": "0.5.0",
         "Authors@R": "\n    c(\n      person(\"Davis\", \"Vaughan\", email = \"davis@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-4777-038X\")),\n      person(\"Jim\",\"Hester\", role = \"aut\", comment = c(ORCID = \"0000-0002-2739-7082\")),\n      person(\"Romain\", \"François\", role = \"aut\", comment = c(ORCID = \"0000-0002-2444-4226\")),\n      person(\"Benjamin\", \"Kietzman\", role = \"ctb\"),\n      person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n    )",
         "Description": "Provides a header only, C++11 interface to R's C\n    interface.  Compared to other approaches 'cpp11' strives to be safe\n    against long jumps from the C API as well as C++ exceptions, conform\n    to normal R function semantics and supports interaction with 'ALTREP'\n    vectors.",
         "License": "MIT + file LICENSE",
         "URL": "https://cpp11.r-lib.org, https://github.com/r-lib/cpp11",
         "BugReports": "https://github.com/r-lib/cpp11/issues",
-        "Suggests": "bench, brio, callr, cli, covr, decor, desc, ggplot2, glue,\nknitr, lobstr, mockery, progress, rmarkdown, scales, Rcpp,\ntestthat, tibble, utils, vctrs, withr",
+        "Depends": "R (>= 3.6.0)",
+        "Suggests": "bench, brio, callr, cli, covr, decor, desc, ggplot2, glue,\nknitr, lobstr, mockery, progress, rmarkdown, scales, Rcpp,\ntestthat (>= 3.2.0), tibble, utils, vctrs, withr",
         "VignetteBuilder": "knitr",
         "Config/Needs/website": "tidyverse/tidytemplate",
         "Config/testthat/edition": "3",
@@ -754,12 +755,12 @@
         "Encoding": "UTF-8",
         "RoxygenNote": "7.2.3",
         "NeedsCompilation": "no",
-        "Packaged": "2023-06-30 12:54:57 UTC; romainfrancois",
+        "Packaged": "2024-08-26 21:19:28 UTC; davis",
         "Author": "Davis Vaughan [aut, cre] (<https://orcid.org/0000-0003-4777-038X>),\n  Jim Hester [aut] (<https://orcid.org/0000-0002-2739-7082>),\n  Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>),\n  Benjamin Kietzman [ctb],\n  Posit Software, PBC [cph, fnd]",
         "Maintainer": "Davis Vaughan <davis@posit.co>",
-        "Repository": "RSPM",
-        "Date/Publication": "2023-06-30 21:20:02 UTC",
-        "Built": "R 4.3.1; ; 2023-11-11 06:40:17 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2024-08-27 04:30:17 UTC",
+        "Built": "R 4.3.1; ; 2024-11-08 05:57:39 UTC; unix"
       }
     },
     "crayon": {
@@ -811,7 +812,7 @@
         "Maintainer": "Carson Sievert <carson@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2023-11-23 08:50:07 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:44:00 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:33 UTC; unix"
       }
     },
     "curl": {
@@ -936,14 +937,14 @@
         "Type": "Package",
         "Package": "dplyr",
         "Title": "A Grammar of Data Manipulation",
-        "Version": "1.1.2",
+        "Version": "1.1.4",
         "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Romain\", \"François\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-2444-4226\")),\n    person(\"Lionel\", \"Henry\", role = \"aut\"),\n    person(\"Kirill\", \"Müller\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-1416-3412\")),\n    person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4777-038X\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
         "Description": "A fast, consistent tool for working with data frame like\n    objects, both in memory and out of memory.",
         "License": "MIT + file LICENSE",
         "URL": "https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr",
         "BugReports": "https://github.com/tidyverse/dplyr/issues",
         "Depends": "R (>= 3.5.0)",
-        "Imports": "cli (>= 3.4.0), generics, glue (>= 1.3.2), lifecycle (>=\n1.0.3), magrittr (>= 1.5), methods, pillar (>= 1.9.0), R6,\nrlang (>= 1.1.0), tibble (>= 3.2.0), tidyselect (>= 1.2.0),\nutils, vctrs (>= 0.6.0)",
+        "Imports": "cli (>= 3.4.0), generics, glue (>= 1.3.2), lifecycle (>=\n1.0.3), magrittr (>= 1.5), methods, pillar (>= 1.9.0), R6,\nrlang (>= 1.1.0), tibble (>= 3.2.0), tidyselect (>= 1.2.0),\nutils, vctrs (>= 0.6.4)",
         "Suggests": "bench, broom, callr, covr, DBI, dbplyr (>= 2.2.1), ggplot2,\nknitr, Lahman, lobstr, microbenchmark, nycflights13, purrr,\nrmarkdown, RMySQL, RPostgreSQL, RSQLite, stringi (>= 1.7.6),\ntestthat (>= 3.1.5), tidyr (>= 1.3.0), withr",
         "VignetteBuilder": "knitr",
         "Config/Needs/website": "tidyverse, shiny, pkgdown, tidyverse/tidytemplate",
@@ -952,12 +953,12 @@
         "LazyData": "true",
         "RoxygenNote": "7.2.3",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-04-19 19:29:34 UTC; hadleywickham",
+        "Packaged": "2023-11-16 21:48:56 UTC; hadleywickham",
         "Author": "Hadley Wickham [aut, cre] (<https://orcid.org/0000-0003-4757-117X>),\n  Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>),\n  Lionel Henry [aut],\n  Kirill Müller [aut] (<https://orcid.org/0000-0002-1416-3412>),\n  Davis Vaughan [aut] (<https://orcid.org/0000-0003-4777-038X>),\n  Posit Software, PBC [cph, fnd]",
         "Maintainer": "Hadley Wickham <hadley@posit.co>",
-        "Repository": "RSPM",
-        "Date/Publication": "2023-04-20 14:00:03 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2023-11-11 06:59:17 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2023-11-17 16:50:02 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:59:33 UTC; unix"
       }
     },
     "dtplyr": {
@@ -1319,7 +1320,7 @@
         "Maintainer": "Robert J. Hijmans <r.hijmans@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-10-04 06:40:06 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 13:01:24 UTC; unix",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 11:10:26 UTC; unix",
         "RemoteType": "standard",
         "RemotePkgRef": "geosphere",
         "RemoteRef": "geosphere",
@@ -1358,7 +1359,7 @@
         "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2024-04-23 08:00:08 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:46:30 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 06:00:10 UTC; unix"
       }
     },
     "glue": {
@@ -1875,28 +1876,28 @@
       "Repository": "https://cran.rstudio.com",
       "description": {
         "Package": "lattice",
-        "Version": "0.21-8",
-        "Date": "2023-04-05",
+        "Version": "0.22-6",
+        "Date": "2024-03-20",
         "Priority": "recommended",
         "Title": "Trellis Graphics for R",
-        "Authors@R": "c(person(\"Deepayan\", \"Sarkar\", role = c(\"aut\", \"cre\"),\n\t            email = \"deepayan.sarkar@r-project.org\",\n\t\t    comment = c(ORCID = \"0000-0003-4107-1553\")),\n              person(\"Felix\", \"Andrews\", role = \"ctb\"),\n\t      person(\"Kevin\", \"Wright\", role = \"ctb\", comment = \"documentation\"),\n\t      person(\"Neil\", \"Klepeis\", role = \"ctb\"),\n\t      person(\"Johan\", \"Larsson\", role = \"ctb\", comment = \"miscellaneous improvements\"),\n              person(\"Zhijian (Jason)\", \"Wen\", role = \"cph\", comment = \"filled contour code\"),\n              person(\"Paul\", \"Murrell\", role = \"ctb\", email = \"paul@stat.auckland.ac.nz\"),\n\t      person(\"Stefan\", \"Eng\", role = \"ctb\", comment = \"violin plot improvements\"),\n\t      person(\"Achim\", \"Zeileis\", role = \"ctb\", comment = \"modern colors\")\n\t      )",
+        "Authors@R": "c(person(\"Deepayan\", \"Sarkar\", role = c(\"aut\", \"cre\"),\n\t            email = \"deepayan.sarkar@r-project.org\",\n\t\t    comment = c(ORCID = \"0000-0003-4107-1553\")),\n              person(\"Felix\", \"Andrews\", role = \"ctb\"),\n\t      person(\"Kevin\", \"Wright\", role = \"ctb\", comment = \"documentation\"),\n\t      person(\"Neil\", \"Klepeis\", role = \"ctb\"),\n\t      person(\"Johan\", \"Larsson\", role = \"ctb\", comment = \"miscellaneous improvements\"),\n              person(\"Zhijian (Jason)\", \"Wen\", role = \"cph\", comment = \"filled contour code\"),\n              person(\"Paul\", \"Murrell\", role = \"ctb\", email = \"paul@stat.auckland.ac.nz\"),\n\t      person(\"Stefan\", \"Eng\", role = \"ctb\", comment = \"violin plot improvements\"),\n\t      person(\"Achim\", \"Zeileis\", role = \"ctb\", comment = \"modern colors\"),\n              person(\"Alexandre\", \"Courtiol\", role = \"ctb\", comment = \"generics for larrows, lpolygon, lrect and lsegments\")\n\t      )",
         "Description": "A powerful and elegant high-level data visualization\n  system inspired by Trellis graphics, with an emphasis on\n  multivariate data. Lattice is sufficient for typical graphics needs,\n  and is also flexible enough to handle most nonstandard requirements.\n  See ?Lattice for an introduction.",
         "Depends": "R (>= 4.0.0)",
         "Suggests": "KernSmooth, MASS, latticeExtra, colorspace",
         "Imports": "grid, grDevices, graphics, stats, utils",
-        "Enhances": "chron",
+        "Enhances": "chron, zoo",
         "LazyLoad": "yes",
         "LazyData": "yes",
         "License": "GPL (>= 2)",
         "URL": "https://lattice.r-forge.r-project.org/",
         "BugReports": "https://github.com/deepayan/lattice/issues",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-04-05 15:31:40 UTC; deepayan",
-        "Author": "Deepayan Sarkar [aut, cre] (<https://orcid.org/0000-0003-4107-1553>),\n  Felix Andrews [ctb],\n  Kevin Wright [ctb] (documentation),\n  Neil Klepeis [ctb],\n  Johan Larsson [ctb] (miscellaneous improvements),\n  Zhijian (Jason) Wen [cph] (filled contour code),\n  Paul Murrell [ctb],\n  Stefan Eng [ctb] (violin plot improvements),\n  Achim Zeileis [ctb] (modern colors)",
+        "Packaged": "2024-03-20 03:08:45 UTC; deepayan",
+        "Author": "Deepayan Sarkar [aut, cre] (<https://orcid.org/0000-0003-4107-1553>),\n  Felix Andrews [ctb],\n  Kevin Wright [ctb] (documentation),\n  Neil Klepeis [ctb],\n  Johan Larsson [ctb] (miscellaneous improvements),\n  Zhijian (Jason) Wen [cph] (filled contour code),\n  Paul Murrell [ctb],\n  Stefan Eng [ctb] (violin plot improvements),\n  Achim Zeileis [ctb] (modern colors),\n  Alexandre Courtiol [ctb] (generics for larrows, lpolygon, lrect and\n    lsegments)",
         "Maintainer": "Deepayan Sarkar <deepayan.sarkar@r-project.org>",
         "Repository": "CRAN",
-        "Date/Publication": "2023-04-05 17:43:19 UTC",
-        "Built": "R 4.3.0; x86_64-pc-linux-gnu; 'Sat, 29 Apr 2023 15:31:54 +0000'; unix"
+        "Date/Publication": "2024-03-20 06:10:02 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:14 UTC; unix"
       }
     },
     "lazyeval": {
@@ -1920,7 +1921,7 @@
         "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
         "Repository": "CRAN",
         "Date/Publication": "2019-03-15 17:50:07 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:37:16 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:16 UTC; unix"
       }
     },
     "leaflet": {
@@ -1950,7 +1951,7 @@
         "Maintainer": "Joe Cheng <joe@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2024-03-26 19:10:06 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:48:29 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 06:06:37 UTC; unix"
       }
     },
     "leaflet.providers": {
@@ -1981,7 +1982,7 @@
         "Maintainer": "Barret Schloerke <barret@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2023-10-17 17:10:02 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:34:54 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:46 UTC; unix"
       }
     },
     "lifecycle": {
@@ -2020,7 +2021,7 @@
         "Type": "Package",
         "Package": "lubridate",
         "Title": "Make Dealing with Dates a Little Easier",
-        "Version": "1.9.2",
+        "Version": "1.9.3",
         "Authors@R": "c(\n    person(\"Vitalie\", \"Spinu\", , \"spinuvit@gmail.com\", role = c(\"aut\", \"cre\")),\n    person(\"Garrett\", \"Grolemund\", role = \"aut\"),\n    person(\"Hadley\", \"Wickham\", role = \"aut\"),\n    person(\"Davis\", \"Vaughan\", role = \"ctb\"),\n    person(\"Ian\", \"Lyttle\", role = \"ctb\"),\n    person(\"Imanuel\", \"Costigan\", role = \"ctb\"),\n    person(\"Jason\", \"Law\", role = \"ctb\"),\n    person(\"Doug\", \"Mitarotonda\", role = \"ctb\"),\n    person(\"Joseph\", \"Larmarange\", role = \"ctb\"),\n    person(\"Jonathan\", \"Boiser\", role = \"ctb\"),\n    person(\"Chel Hee\", \"Lee\", role = \"ctb\")\n  )",
         "Maintainer": "Vitalie Spinu <spinuvit@gmail.com>",
         "Description": "Functions to work with date-times and time-spans: fast and\n    user friendly parsing of date-time data, extraction and updating of\n    components of a date-time (years, months, days, hours, minutes, and\n    seconds), algebraic manipulation on date-time and time-span objects.\n    The 'lubridate' package has a consistent and memorable syntax that\n    makes working with dates easy and fun.",
@@ -2036,15 +2037,15 @@
         "Config/testthat/edition": "3",
         "Encoding": "UTF-8",
         "LazyData": "true",
-        "RoxygenNote": "7.2.1",
+        "RoxygenNote": "7.2.3",
         "SystemRequirements": "C++11, A system with zoneinfo data (e.g.\n/usr/share/zoneinfo). On Windows the zoneinfo included with R\nis used.",
         "Collate": "'Dates.r' 'POSIXt.r' 'util.r' 'parse.r' 'timespans.r'\n'intervals.r' 'difftimes.r' 'durations.r' 'periods.r'\n'accessors-date.R' 'accessors-day.r' 'accessors-dst.r'\n'accessors-hour.r' 'accessors-minute.r' 'accessors-month.r'\n'accessors-quarter.r' 'accessors-second.r' 'accessors-tz.r'\n'accessors-week.r' 'accessors-year.r' 'am-pm.r' 'time-zones.r'\n'numeric.r' 'coercion.r' 'constants.r' 'cyclic_encoding.r'\n'data.r' 'decimal-dates.r' 'deprecated.r' 'format_ISO8601.r'\n'guess.r' 'hidden.r' 'instants.r' 'leap-years.r'\n'ops-addition.r' 'ops-compare.r' 'ops-division.r'\n'ops-integer-division.r' 'ops-m+.r' 'ops-modulo.r'\n'ops-multiplication.r' 'ops-subtraction.r' 'package.r'\n'pretty.r' 'round.r' 'stamp.r' 'tzdir.R' 'update.r' 'vctrs.R'\n'zzz.R'",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-02-09 21:36:50 UTC; vspinu",
+        "Packaged": "2023-09-24 18:46:12 UTC; vspinu",
         "Author": "Vitalie Spinu [aut, cre],\n  Garrett Grolemund [aut],\n  Hadley Wickham [aut],\n  Davis Vaughan [ctb],\n  Ian Lyttle [ctb],\n  Imanuel Costigan [ctb],\n  Jason Law [ctb],\n  Doug Mitarotonda [ctb],\n  Joseph Larmarange [ctb],\n  Jonathan Boiser [ctb],\n  Chel Hee Lee [ctb]",
-        "Repository": "RSPM",
-        "Date/Publication": "2023-02-10 01:30:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2023-11-11 06:48:27 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2023-09-27 09:20:06 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:16 UTC; unix"
       }
     },
     "magrittr": {
@@ -2106,7 +2107,7 @@
       "Repository": "https://cran.rstudio.com",
       "description": {
         "Package": "mgcv",
-        "Version": "1.8-42",
+        "Version": "1.9-1",
         "Author": "Simon Wood <simon.wood@r-project.org>",
         "Maintainer": "Simon Wood <simon.wood@r-project.org>",
         "Title": "Mixed GAM Computation Vehicle with Automatic Smoothness\nEstimation",
@@ -2119,10 +2120,10 @@
         "ByteCompile": "yes",
         "License": "GPL (>= 2)",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-02-25 13:11:36 UTC; sw283",
+        "Packaged": "2023-12-20 10:39:06 UTC; sw283",
         "Repository": "CRAN",
-        "Date/Publication": "2023-03-02 12:20:05 UTC",
-        "Built": "R 4.2.3; x86_64-pc-linux-gnu; 'Tue, 21 Mar 2023 02:42:24 +0000'; unix"
+        "Date/Publication": "2023-12-21 00:30:02 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:49 UTC; unix"
       }
     },
     "mime": {
@@ -2343,7 +2344,7 @@
         "Maintainer": "Carson Sievert <cpsievert1@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-01-13 22:40:02 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:48:33 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 06:00:40 UTC; unix"
       }
     },
     "png": {
@@ -2364,7 +2365,7 @@
         "Packaged": "2022-11-29 09:42:31 UTC; rforge",
         "Repository": "CRAN",
         "Date/Publication": "2022-11-29 11:12:53 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:29:06 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:57:52 UTC; unix"
       }
     },
     "prettyunits": {
@@ -2640,7 +2641,7 @@
         "Maintainer": "Robert J. Hijmans <r.hijmans@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2024-10-02 18:10:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:44:03 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 06:04:39 UTC; unix"
       }
     },
     "readr": {
@@ -2815,7 +2816,7 @@
         "Maintainer": "Lionel Henry <lionel@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2024-06-04 09:45:03 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:34:56 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:57:52 UTC; unix"
       }
     },
     "rmarkdown": {
@@ -2870,7 +2871,7 @@
         "Author": "Kevin Ushey [aut, cre],\n  JJ Allaire [aut],\n  Hadley Wickham [aut],\n  Gary Ritchie [aut],\n  RStudio [cph]",
         "Repository": "CRAN",
         "Date/Publication": "2024-10-22 22:40:02 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:35:19 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:22 UTC; unix"
       }
     },
     "rvest": {
@@ -2930,7 +2931,7 @@
         "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
         "Repository": "CRAN",
         "Date/Publication": "2024-07-17 13:50:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:37:29 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:36 UTC; unix"
       }
     },
     "sass": {
@@ -2988,7 +2989,7 @@
         "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
         "Repository": "CRAN",
         "Date/Publication": "2023-11-28 09:10:06 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 05:37:22 UTC; unix"
+        "Built": "R 4.3.1; ; 2024-11-08 05:58:32 UTC; unix"
       }
     },
     "selectr": {
@@ -3023,7 +3024,7 @@
       "Repository": "https://cran.rstudio.com",
       "description": {
         "Package": "sf",
-        "Version": "1.0-18",
+        "Version": "1.0-19",
         "Title": "Simple Features for R",
         "Authors@R": "\n    c(person(given = \"Edzer\",\n             family = \"Pebesma\",\n             role = c(\"aut\", \"cre\"),\n             email = \"edzer.pebesma@uni-muenster.de\",\n             comment = c(ORCID = \"0000-0001-8049-7069\")),\n      person(given = \"Roger\",\n             family = \"Bivand\",\n             role = \"ctb\",\n             comment = c(ORCID = \"0000-0003-2392-6140\")),\n      person(given = \"Etienne\",\n             family = \"Racine\",\n             role = \"ctb\"),\n      person(given = \"Michael\",\n             family = \"Sumner\",\n             role = \"ctb\"),\n      person(given = \"Ian\",\n             family = \"Cook\",\n             role = \"ctb\"),\n      person(given = \"Tim\",\n             family = \"Keitt\",\n             role = \"ctb\"),\n      person(given = \"Robin\",\n             family = \"Lovelace\",\n             role = \"ctb\"),\n      person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = \"ctb\"),\n      person(given = \"Jeroen\",\n             family = \"Ooms\",\n             role = \"ctb\",\n             comment = c(ORCID = \"0000-0002-4035-0289\")),\n      person(given = \"Kirill\",\n             family = \"M\\u00fcller\",\n             role = \"ctb\"),\n      person(given = \"Thomas Lin\",\n             family = \"Pedersen\",\n             role = \"ctb\"),\n      person(given = \"Dan\",\n             family = \"Baston\",\n             role = \"ctb\"),\n      person(given = \"Dewey\",\n             family = \"Dunnington\",\n             role = \"ctb\",\n             comment = c(ORCID = \"0000-0002-9415-4582\"))\n\t\t\t )",
         "Description": "Support for simple features, a standardized way to\n    encode spatial vector data. Binds to 'GDAL' for reading and writing\n    data, to 'GEOS' for geometrical operations, and to 'PROJ' for\n    projection conversions and datum transformations. Uses by default the 's2'\n    package for spherical geometry operations on ellipsoidal (long/lat) coordinates.",
@@ -3042,12 +3043,12 @@
         "SystemRequirements": "GDAL (>= 2.0.1), GEOS (>= 3.4.0), PROJ (>= 4.8.0),\nsqlite3",
         "Collate": "'RcppExports.R' 'init.R' 'import-standalone-s3-register.R'\n'crs.R' 'bbox.R' 'read.R' 'db.R' 'sfc.R' 'sfg.R' 'sf.R'\n'bind.R' 'wkb.R' 'wkt.R' 'plot.R' 'geom-measures.R'\n'geom-predicates.R' 'geom-transformers.R' 'transform.R'\n'proj.R' 'sp.R' 'grid.R' 'arith.R' 'tidyverse.R'\n'tidyverse-vctrs.R' 'cast_sfg.R' 'cast_sfc.R' 'graticule.R'\n'datasets.R' 'aggregate.R' 'agr.R' 'maps.R' 'join.R' 'sample.R'\n'valid.R' 'collection_extract.R' 'jitter.R' 'sgbp.R'\n'spatstat.R' 'stars.R' 'crop.R' 'gdal_utils.R' 'nearest.R'\n'normalize.R' 'sf-package.R' 'defunct.R' 'z_range.R'\n'm_range.R' 'shift_longitude.R' 'make_grid.R' 's2.R' 'terra.R'\n'geos-overlayng.R' 'break_antimeridian.R'",
         "NeedsCompilation": "yes",
-        "Packaged": "2024-10-09 16:58:17 UTC; edzer",
+        "Packaged": "2024-11-05 07:54:08 UTC; edzer",
         "Author": "Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>),\n  Roger Bivand [ctb] (<https://orcid.org/0000-0003-2392-6140>),\n  Etienne Racine [ctb],\n  Michael Sumner [ctb],\n  Ian Cook [ctb],\n  Tim Keitt [ctb],\n  Robin Lovelace [ctb],\n  Hadley Wickham [ctb],\n  Jeroen Ooms [ctb] (<https://orcid.org/0000-0002-4035-0289>),\n  Kirill Müller [ctb],\n  Thomas Lin Pedersen [ctb],\n  Dan Baston [ctb],\n  Dewey Dunnington [ctb] (<https://orcid.org/0000-0002-9415-4582>)",
         "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
         "Repository": "CRAN",
-        "Date/Publication": "2024-10-11 06:30:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:46:49 UTC; unix"
+        "Date/Publication": "2024-11-05 17:00:02 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 06:04:39 UTC; unix"
       }
     },
     "sp": {
@@ -3073,7 +3074,7 @@
         "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
         "Repository": "CRAN",
         "Date/Publication": "2024-04-30 14:20:03 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:29:32 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:33 UTC; unix"
       }
     },
     "stringi": {
@@ -3111,28 +3112,28 @@
       "description": {
         "Package": "stringr",
         "Title": "Simple, Consistent Wrappers for Common String Operations",
-        "Version": "1.5.0",
-        "Authors@R": "\n    c(person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = c(\"aut\", \"cre\", \"cph\"),\n             email = \"hadley@rstudio.com\"),\n      person(given = \"RStudio\",\n             role = c(\"cph\", \"fnd\")))",
+        "Version": "1.5.1",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\", \"cph\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
         "Description": "A consistent, simple and easy to use set of wrappers around\n    the fantastic 'stringi' package. All function and argument names (and\n    positions) are consistent, all functions deal with \"NA\"'s and zero\n    length vectors in the same way, and the output from one function is\n    easy to feed into the input of another.",
         "License": "MIT + file LICENSE",
         "URL": "https://stringr.tidyverse.org,\nhttps://github.com/tidyverse/stringr",
         "BugReports": "https://github.com/tidyverse/stringr/issues",
-        "Depends": "R (>= 3.3)",
-        "Imports": "cli, glue (>= 1.6.1), lifecycle (>= 1.0.3), magrittr, rlang\n(>= 1.0.0), stringi (>= 1.5.3), vctrs",
-        "Suggests": "covr, htmltools, htmlwidgets, knitr, rmarkdown, testthat (>=\n3.0.0)",
+        "Depends": "R (>= 3.6)",
+        "Imports": "cli, glue (>= 1.6.1), lifecycle (>= 1.0.3), magrittr, rlang\n(>= 1.0.0), stringi (>= 1.5.3), vctrs (>= 0.4.0)",
+        "Suggests": "covr, dplyr, gt, htmltools, htmlwidgets, knitr, rmarkdown,\ntestthat (>= 3.0.0), tibble",
         "VignetteBuilder": "knitr",
         "Config/Needs/website": "tidyverse/tidytemplate",
         "Config/testthat/edition": "3",
         "Encoding": "UTF-8",
         "LazyData": "true",
-        "RoxygenNote": "7.2.1",
+        "RoxygenNote": "7.2.3",
         "NeedsCompilation": "no",
-        "Packaged": "2022-12-01 20:53:42 UTC; hadleywickham",
-        "Author": "Hadley Wickham [aut, cre, cph],\n  RStudio [cph, fnd]",
-        "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-        "Repository": "RSPM",
-        "Date/Publication": "2022-12-02 10:20:02 UTC",
-        "Built": "R 4.3.1; ; 2023-11-11 06:55:19 UTC; unix"
+        "Packaged": "2023-11-14 15:03:52 UTC; hadleywickham",
+        "Author": "Hadley Wickham [aut, cre, cph],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Hadley Wickham <hadley@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2023-11-14 23:10:02 UTC",
+        "Built": "R 4.3.1; ; 2024-11-08 05:59:20 UTC; unix"
       }
     },
     "sys": {
@@ -3218,7 +3219,7 @@
         "Author": "Robert J. Hijmans [cre, aut] (<https://orcid.org/0000-0001-5872-2872>),\n  Roger Bivand [ctb] (<https://orcid.org/0000-0003-2392-6140>),\n  Emanuele Cordano [ctb] (<https://orcid.org/0000-0002-3508-5898>),\n  Krzysztof Dyba [ctb] (<https://orcid.org/0000-0002-8614-3816>),\n  Edzer Pebesma [ctb] (<https://orcid.org/0000-0001-8049-7069>),\n  Michael D. Sumner [ctb]",
         "Repository": "CRAN",
         "Date/Publication": "2024-10-14 12:10:06 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:29:45 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:04 UTC; unix"
       }
     },
     "textshaping": {
@@ -3290,14 +3291,14 @@
       "description": {
         "Package": "tidyr",
         "Title": "Tidy Messy Data",
-        "Version": "1.3.0",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = \"aut\"),\n    person(\"Maximilian\", \"Girlich\", role = \"aut\"),\n    person(\"Kevin\", \"Ushey\", , \"kevin@posit.co\", role = \"ctb\"),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Version": "1.3.1",
+        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = \"aut\"),\n    person(\"Maximilian\", \"Girlich\", role = \"aut\"),\n    person(\"Kevin\", \"Ushey\", , \"kevin@posit.co\", role = \"ctb\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
         "Description": "Tools to help to create tidy data, where each column is a\n    variable, each row is an observation, and each cell contains a single\n    value.  'tidyr' contains tools for changing the shape (pivoting) and\n    hierarchy (nesting and 'unnesting') of a dataset, turning deeply\n    nested lists into rectangular data frames ('rectangling'), and\n    extracting values out of string columns. It also includes tools for\n    working with missing values (both implicit and explicit).",
         "License": "MIT + file LICENSE",
         "URL": "https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr",
         "BugReports": "https://github.com/tidyverse/tidyr/issues",
-        "Depends": "R (>= 3.4.0)",
-        "Imports": "cli (>= 3.4.1), dplyr (>= 1.0.10), glue, lifecycle (>= 1.0.3),\nmagrittr, purrr (>= 1.0.1), rlang (>= 1.0.4), stringr (>=\n1.5.0), tibble (>= 2.1.1), tidyselect (>= 1.2.0), utils, vctrs\n(>= 0.5.2)",
+        "Depends": "R (>= 3.6)",
+        "Imports": "cli (>= 3.4.1), dplyr (>= 1.0.10), glue, lifecycle (>= 1.0.3),\nmagrittr, purrr (>= 1.0.1), rlang (>= 1.1.1), stringr (>=\n1.5.0), tibble (>= 2.1.1), tidyselect (>= 1.2.0), utils, vctrs\n(>= 0.5.2)",
         "Suggests": "covr, data.table, knitr, readr, repurrrsive (>= 1.1.0),\nrmarkdown, testthat (>= 3.0.0)",
         "LinkingTo": "cpp11 (>= 0.4.0)",
         "VignetteBuilder": "knitr",
@@ -3305,15 +3306,14 @@
         "Config/testthat/edition": "3",
         "Encoding": "UTF-8",
         "LazyData": "true",
-        "RoxygenNote": "7.2.3",
-        "SystemRequirements": "C++11",
+        "RoxygenNote": "7.3.0",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-01-23 22:21:00 UTC; hadleywickham",
-        "Author": "Hadley Wickham [aut, cre],\n  Davis Vaughan [aut],\n  Maximilian Girlich [aut],\n  Kevin Ushey [ctb],\n  Posit, PBC [cph, fnd]",
+        "Packaged": "2024-01-23 14:27:23 UTC; hadleywickham",
+        "Author": "Hadley Wickham [aut, cre],\n  Davis Vaughan [aut],\n  Maximilian Girlich [aut],\n  Kevin Ushey [ctb],\n  Posit Software, PBC [cph, fnd]",
         "Maintainer": "Hadley Wickham <hadley@posit.co>",
-        "Repository": "RSPM",
-        "Date/Publication": "2023-01-24 16:00:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2023-11-11 07:01:15 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2024-01-24 14:50:09 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 06:00:04 UTC; unix"
       }
     },
     "tidyselect": {
@@ -3484,7 +3484,7 @@
         "Maintainer": "Edzer Pebesma <edzer.pebesma@uni-muenster.de>",
         "Repository": "CRAN",
         "Date/Publication": "2023-11-28 16:10:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:29:21 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:14 UTC; unix"
       }
     },
     "utf8": {
@@ -3542,7 +3542,7 @@
       "description": {
         "Package": "vctrs",
         "Title": "Vector Helpers",
-        "Version": "0.6.3",
+        "Version": "0.6.5",
         "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = \"aut\"),\n    person(\"Davis\", \"Vaughan\", , \"davis@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"data.table team\", role = \"cph\",\n           comment = \"Radix sort based on data.table's forder() and their contribution to R's order()\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
         "Description": "Defines new notions of prototype and size that are used to\n    provide tools for consistent and well-founded type-coercion and\n    size-recycling, and are in turn connected to ideas of type- and\n    size-stability useful for analysing function interfaces.",
         "License": "MIT + file LICENSE",
@@ -3558,12 +3558,12 @@
         "Language": "en-GB",
         "RoxygenNote": "7.2.3",
         "NeedsCompilation": "yes",
-        "Packaged": "2023-06-14 21:04:57 UTC; davis",
+        "Packaged": "2023-12-01 16:27:12 UTC; davis",
         "Author": "Hadley Wickham [aut],\n  Lionel Henry [aut],\n  Davis Vaughan [aut, cre],\n  data.table team [cph] (Radix sort based on data.table's forder() and\n    their contribution to R's order()),\n  Posit Software, PBC [cph, fnd]",
         "Maintainer": "Davis Vaughan <davis@posit.co>",
-        "Repository": "RSPM",
-        "Date/Publication": "2023-06-14 23:40:02 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2023-11-11 06:46:37 UTC; unix"
+        "Repository": "CRAN",
+        "Date/Publication": "2023-12-01 23:50:02 UTC",
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:58:50 UTC; unix"
       }
     },
     "viridisLite": {
@@ -3649,7 +3649,7 @@
         "Maintainer": "Karthik Ram <karthik.ram@gmail.com>",
         "Repository": "CRAN",
         "Date/Publication": "2023-10-31 16:50:02 UTC",
-        "Built": "R 4.3.1; ; 2024-10-24 13:02:10 UTC; unix",
+        "Built": "R 4.3.1; ; 2024-11-08 11:11:11 UTC; unix",
         "RemoteType": "standard",
         "RemotePkgRef": "wesanderson",
         "RemoteRef": "wesanderson",
@@ -3713,7 +3713,7 @@
         "Author": "Dewey Dunnington [aut, cre] (<https://orcid.org/0000-0002-9415-4582>),\n  Edzer Pebesma [aut] (<https://orcid.org/0000-0001-8049-7069>),\n  Anthony North [ctb]",
         "Repository": "CRAN",
         "Date/Publication": "2024-10-11 20:10:03 UTC",
-        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-10-24 05:28:15 UTC; unix"
+        "Built": "R 4.3.1; x86_64-pc-linux-gnu; 2024-11-08 05:57:40 UTC; unix"
       }
     },
     "xfun": {
@@ -3799,287 +3799,11 @@
     }
   },
   "files": {
-    "Anglers Trust Analysis and example QA.html": {
-      "checksum": "bbd5e77a8a656224cbce90d5090fe483"
-    },
     "Anglers Trust Analysis and example QA.qmd": {
       "checksum": "b7ab56fd038bb3b031af9e045ad466ee"
     },
-    "Anglers Trust Analysis and example QA_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js": {
-      "checksum": "4c72a5a790e066510f9eb68541280646"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/bootstrap/bootstrap-icons.css": {
-      "checksum": "7368407d15110275bb7af49476ae70f2"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/bootstrap/bootstrap-icons.woff": {
-      "checksum": "dfd2a6bd06f9dd7437ee67673cd9c447"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/bootstrap/bootstrap.min.css": {
-      "checksum": "1b5decc78a8be27abce0b265e51283ff"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/bootstrap/bootstrap.min.js": {
-      "checksum": "7ccd9d390d31af98110f74f842ea9b32"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/clipboard/clipboard.min.js": {
-      "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/css/crosstalk.min.css": {
-      "checksum": "3372343a6739e49faffeb858d451558e"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/js/crosstalk.js": {
-      "checksum": "0cedbe7e922170c10db55772f82139e3"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/js/crosstalk.js.map": {
-      "checksum": "6f4eb7fff5f7965637440ad7be0fb877"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/js/crosstalk.min.js": {
-      "checksum": "66b6e84d85256249d722c6e94143eb73"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/js/crosstalk.min.js.map": {
-      "checksum": "7a0a37270ea71dee56cebc627c58ca03"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/crosstalk-1.2.1/scss/crosstalk.scss": {
-      "checksum": "e5410240dcb4f51691eab5f9a62720d7"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/datatables-binding-0.33/datatables.js": {
-      "checksum": "94d927c2413ab0af4fbcf0fe83bf2950"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/datatables-css-0.0.0/datatables-crosstalk.css": {
-      "checksum": "d8b3c70e6451e656f1fa231e2bf97ced"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css": {
-      "checksum": "704b5e060968ac06041f9b2d9ee545b5"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css": {
-      "checksum": "e3621690205662b3f96746d73a0fe4b2"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js": {
-      "checksum": "44e877882207ee93b9d9d17dd0e11c87"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/htmlwidgets-1.6.2/htmlwidgets.js": {
-      "checksum": "237f59bc086ccf24f39be55311023b91"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/jquery-3.6.0/jquery-3.6.0.js": {
-      "checksum": "2849239b95f5a9a2aea3f6ed9420bb88"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/jquery-3.6.0/jquery-3.6.0.min.js": {
-      "checksum": "8fb8fee4fcc3cc86ff6c724154c49c42"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/jquery-3.6.0/jquery-3.6.0.min.map": {
-      "checksum": "6efc5d663aaacac2024153fa0d4bafcd"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/images/layers-2x.png": {
-      "checksum": "4f0283c6ce28e888000e978e537a6a56"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/images/layers.png": {
-      "checksum": "a6137456ed160d7606981aa57c559898"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/images/marker-icon-2x.png": {
-      "checksum": "401d815dc206b8dc1b17cd0e37695975"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/images/marker-icon.png": {
-      "checksum": "2273e3d8ad9264b7daa5bdbf8e6b47f8"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/images/marker-shadow.png": {
-      "checksum": "44a526eed258222515aa21eaffd14a96"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/leaflet.css": {
-      "checksum": "58da535d4980b4c71b74a41bbee8a510"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-1.3.1/leaflet.js": {
-      "checksum": "af438f3b0ec09c81bc8fb9959de88155"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-binding-2.2.2/leaflet.js": {
-      "checksum": "7b0d68b050b79c5699a9f361b697b6ef"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js": {
-      "checksum": "b65600ab8d380d9a3100e9d1c92cb4bb"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js": {
-      "checksum": "8fb426b3cfaa7d730f3b56a104012882"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/leafletfix-1.0.0/leafletfix.css": {
-      "checksum": "6a38c873de948d8a1458ec0429aa0063"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/plotly-binding-4.10.4/plotly.js": {
-      "checksum": "3c7c9d64b95cebf57b0180d466b17239"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css": {
-      "checksum": "150e4929cfd53a8a39835d40a108a54e"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/plotly-main-2.11.1/plotly-latest.min.js": {
-      "checksum": "1fc102cdbb70da7c36352fa857d2fac3"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/proj4-2.6.2/proj4.min.js": {
-      "checksum": "4c6ef5a940694e1acc5c9ef66572fa79"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/anchor.min.js": {
-      "checksum": "a58f4bdbf86e8ae057af9131b5b1bcfd"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/popper.min.js": {
-      "checksum": "ad6c106f3ba17d5a54d8053a4c4899ca"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/quarto-syntax-highlighting.css": {
-      "checksum": "49bff82b9355f257417faaaa77dd1607"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/quarto.js": {
-      "checksum": "e2f4880ce6c3de9af6a724b53acf8607"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/tippy.css": {
-      "checksum": "ebd6f8ce46a677e1a4f5f8a8317109a9"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/quarto-html/tippy.umd.min.js": {
-      "checksum": "d828775275749701b48bd9d958814111"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/rstudio_leaflet-1.3.1/images/1px.png": {
-      "checksum": "978c1bee49d7ad5fc1a4d81099b13e18"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css": {
-      "checksum": "49b23a276edf8677e7bb779525d2be7d"
-    },
-    "Anglers Trust Analysis and example QA_files/libs/typedarray-0.1/typedarray.min.js": {
-      "checksum": "4db25a9ed5c5fcf2dd1746f27be2ef39"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/National Plot_a7dab75637d62330217f4bf8c8aaa066.RData": {
-      "checksum": "3a95a3c51d5ef71fd385a6d48aed59fb"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/National Plot_a7dab75637d62330217f4bf8c8aaa066.rdb": {
-      "checksum": "defc067e54c9aa83b40fc3c379c9e4cc"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/National Plot_a7dab75637d62330217f4bf8c8aaa066.rdx": {
-      "checksum": "6b724077136e099fc9425febc631c9ef"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/__packages": {
-      "checksum": "17604120a3782875ae6f3176a02ce1d0"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/screening for zeroes_091decf0eb27993f2d3cfa5d711bd8eb.RData": {
-      "checksum": "d490d921a0901d136440ccafbad8fa83"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/screening for zeroes_091decf0eb27993f2d3cfa5d711bd8eb.rdb": {
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/screening for zeroes_091decf0eb27993f2d3cfa5d711bd8eb.rdx": {
-      "checksum": "a1e645b0106fe4c5d646f7ab09becd46"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-1_a32d3584ba7c6d1ae53cf42eea13a203.RData": {
-      "checksum": "709c70b065c135ef7f4df20881476a16"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-1_a32d3584ba7c6d1ae53cf42eea13a203.rdb": {
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-1_a32d3584ba7c6d1ae53cf42eea13a203.rdx": {
-      "checksum": "a1e645b0106fe4c5d646f7ab09becd46"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-2_23da56c94f6c877a95b9a199b0e2f77b.RData": {
-      "checksum": "eed82a7425070ff0ddf2a4c4f96803f6"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-2_23da56c94f6c877a95b9a199b0e2f77b.rdb": {
-      "checksum": "363be3626d8321b696329bced25190f2"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-2_23da56c94f6c877a95b9a199b0e2f77b.rdx": {
-      "checksum": "abf09b6f3b1fc423de7ec4db2297c163"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-3_d5395b34d673fe53162b7d31ff30621d.RData": {
-      "checksum": "af81d6f54caad329af877ab6f1fb569f"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-3_d5395b34d673fe53162b7d31ff30621d.rdb": {
-      "checksum": "73f63cedaf8a77ab0a431d8dd3ab7d8c"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-3_d5395b34d673fe53162b7d31ff30621d.rdx": {
-      "checksum": "9f2e66d5806fdfaa28ea4d40e0c1f5b5"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-4_2e14ecee8bac2ee894e50d43d4e04699.RData": {
-      "checksum": "d63f71ce990d77e95d4ef1721940ac4b"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-4_2e14ecee8bac2ee894e50d43d4e04699.rdb": {
-      "checksum": "d3400a7b1002a93a4e5454d5167cb7ee"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-4_2e14ecee8bac2ee894e50d43d4e04699.rdx": {
-      "checksum": "e40caa5cd4505f6dcca484ad8106b61b"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-5_ffb17c322baa716220121bbfb91b4ba6.RData": {
-      "checksum": "34f6db6e3a14ba4e9b3e31cab05d5ca3"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-5_ffb17c322baa716220121bbfb91b4ba6.rdb": {
-      "checksum": "c74c03eac1b5bb0fd3cdd14187357543"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-5_ffb17c322baa716220121bbfb91b4ba6.rdx": {
-      "checksum": "a9fb7743271fcff9f8b83bf5284d1f7a"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-6_0b551b77fe75afe6dde935a83bbd21af.RData": {
-      "checksum": "e0bcf8a19999cdc4436034551d7ee8d7"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-6_0b551b77fe75afe6dde935a83bbd21af.rdb": {
-      "checksum": "7e327c8519ebb8324734b6033af14369"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-6_0b551b77fe75afe6dde935a83bbd21af.rdx": {
-      "checksum": "d05336bd07fbc4908f1ef40179e604a8"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-7_a72b6f0ff7738222f65350dc1192da11.RData": {
-      "checksum": "a1ecdcd9d591333e975aeb037dbf06ff"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-7_a72b6f0ff7738222f65350dc1192da11.rdb": {
-      "checksum": "3170c6fe7529da5e83075d605ca287df"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-7_a72b6f0ff7738222f65350dc1192da11.rdx": {
-      "checksum": "ec47a005c9bc744d1062d2ba578a14bc"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-8_f70b45c1bf3ab9b9b5f9a4aaded0c6df.RData": {
-      "checksum": "52c0b462a75e32b7195cae888904bddf"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-8_f70b45c1bf3ab9b9b5f9a4aaded0c6df.rdb": {
-      "checksum": "defc067e54c9aa83b40fc3c379c9e4cc"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-8_f70b45c1bf3ab9b9b5f9a4aaded0c6df.rdx": {
-      "checksum": "cd6bae08aff1381e4a3ae7bf12048da0"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-9_aef1a8b98e7225f3ea3eefc360656152.RData": {
-      "checksum": "3380317648f3418746e2ce85cca2af2b"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-9_aef1a8b98e7225f3ea3eefc360656152.rdb": {
-      "checksum": "6de0bb18f94dd98353ea52d197588df5"
-    },
-    "Anglers-Trust-Analysis-and-example-QA_cache/html/unnamed-chunk-9_aef1a8b98e7225f3ea3eefc360656152.rdx": {
-      "checksum": "7542536798661429a62e306221b23003"
-    },
-    "Cit_Sci_Pipeline.html": {
-      "checksum": "40847f2f8b58a0a9fe57746d6e1f6c54"
-    },
     "Cit_Sci_Pipeline.qmd": {
       "checksum": "e76a2158c9bf600c5252b662b97675fe"
-    },
-    "Cit_Sci_Pipeline_files/libs/bootstrap/bootstrap-icons.css": {
-      "checksum": "7368407d15110275bb7af49476ae70f2"
-    },
-    "Cit_Sci_Pipeline_files/libs/bootstrap/bootstrap-icons.woff": {
-      "checksum": "dfd2a6bd06f9dd7437ee67673cd9c447"
-    },
-    "Cit_Sci_Pipeline_files/libs/bootstrap/bootstrap.min.css": {
-      "checksum": "1b5decc78a8be27abce0b265e51283ff"
-    },
-    "Cit_Sci_Pipeline_files/libs/bootstrap/bootstrap.min.js": {
-      "checksum": "7ccd9d390d31af98110f74f842ea9b32"
-    },
-    "Cit_Sci_Pipeline_files/libs/clipboard/clipboard.min.js": {
-      "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/anchor.min.js": {
-      "checksum": "a58f4bdbf86e8ae057af9131b5b1bcfd"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/popper.min.js": {
-      "checksum": "ad6c106f3ba17d5a54d8053a4c4899ca"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/quarto-syntax-highlighting.css": {
-      "checksum": "49bff82b9355f257417faaaa77dd1607"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/quarto.js": {
-      "checksum": "e2f4880ce6c3de9af6a724b53acf8607"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/tippy.css": {
-      "checksum": "ebd6f8ce46a677e1a4f5f8a8317109a9"
-    },
-    "Cit_Sci_Pipeline_files/libs/quarto-html/tippy.umd.min.js": {
-      "checksum": "d828775275749701b48bd9d958814111"
     },
     "Comparison of Epicollect & wims.png": {
       "checksum": "1d20868e6f536903d52eff6b26963c07"
