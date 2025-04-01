@@ -1,0 +1,349 @@
+---
+title: "Stamp on Arrival Project"
+author: H.Gray
+date: 17/09/24
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=FALSE,warning=FALSE, echo=FALSE, cache=TRUE)
+```
+
+```{css}
+.dataTables_wrapper {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.dataTables_wrapper table {
+font-size: 11px;
+}
+
+```
+
+## Rational
+
+This document outlines how we can automate the Quality Assurance/ Quality Control *and* transformation of citizen science data upon its arrival in the EA.
+
+By using our partner's data, the EA can enhance its understanding of our catchments. Following data being collected to a quality assured methodology, we can subject this data to a second step of quality assurance and quality control upon arrival at the EA.
+
+We can also transform this external data so that it is EA analyst friendly and interoperable with other EA datasets. Together, this means external data is easier for our EA analysts to use and decision-makers can be more confident in the accuracy of the data we receive from our partners, enabling more informed decisions.
+
+These kind of automated processes are commonly known as an ETL pipeline or [RAP](https://analysisfunction.civilservice.gov.uk/support/reproducible-analytical-pipelines/) in Data Science. Here we use the Defra Analysis & Science Hub platform to perfom this computation. The benefits of RAPs can be found by clicking the hyperlink above.
+
+## Introduction
+
+In this document we use the [Angling Trust Water Quality Monitoring Network](https://anglingtrust.net/wp-content/uploads/2022/12/Water-Quality-Monitoring-Network-Viewers-Pack-v2-FINAL-09.12.2022.pdf) (ATWQMN!), it is a popular citizen science project with coverage throughout England and one of the few coordinated nationally in the somewhat new water quality space of citizen science data.
+
+The QAQC show below is informed by findings from [CaSTCo](https://theriverstrust.org/our-work/our-projects/castco-catchment-systems-thinking-cooperative)- EA pilot projects trialing the collection of water quality data by the public. The ATWQMN project uses off-the-shelf meters which perform differently to EA sondes- we therefore apply QAQC to account for this instead of taking the data at face-value.
+
+The ATWQMN uses Epicollect5 as a data collection platform(developed by the Big Data Institute at the University of Oxford). This platform enables data to be shared via manual download, on a map in app and, like some other citizen science platforms provides an open-access API: enabling data to consistently be shared in a uniform format and in near-real-time.
+
+The ATWQN has been set up to capture a mixture of quantitative and observational water quality data. The following parameters are recorded:
+
+#### Survey Parameters
+
+-   Upload date
+-   Sampler Name
+-   Site Name
+-   Project title
+-   River Name (doesn't match up with WFD)
+-   Time of sample
+-   Date
+-   Weather at time of sample
+-   Electrical Conductivity (not sure of units)
+-   Phosphate (ppm)
+-   Temperature (°C)
+-   Nitrate (ppm)
+-   River level (relative)
+-   Sample Accuracy
+-   Presence of algal blooms
+-   Presence of pollution
+-   Photo
+-   Latitude
+-   Longitude
+-   Easting
+-   Northing
+-   UTM Zone
+
+#### Kit used
+
+-   Ammonia: Hanna Hi-715 Ammonia Checker
+-   Phosphate: Hanna Phosphate Checker
+-   Nitrate: Hach Nitrate Test Strips
+-   EC: HM Digital EC-3 Meter
+-   Temp: ?
+-   Photos/Location: Smart Phone?
+
+------------------------------------------------------------------------
+
+```{r}
+
+library(leaflet)
+library(magrittr)
+library(tidyverse)
+
+df <- read.csv("/dbfs/mnt/lab/unrestricted/harry.gray@environment-agency.gov.uk/ETL_Exports/ATWQMN_Cit_Sci_Update.csv")
+
+
+```
+
+Access to citizen science data through APIs offers an easy starting place to access data in a way in which embedding QAQC isn't time consuming and can be automated. APIs also provide near-real-time access to data, the below table for example, shows the data collected for the ATWQMN over the last 3 days:
+
+```{r}
+
+
+#  3 days ago
+
+  twowkago <- Sys.Date()- 3
+  
+#Map for samples added in last two weeks.
+
+
+today <- df %>% 
+  filter(Date >= twowkago & Date <= Sys.Date())
+
+
+
+
+DT::datatable(today[,c(4:28)])
+
+
+```
+
+## Map of Angling Trust Water Quality Monitoring Network data collected over last 3 days
+
+The above table is displayed below in a map. Click a site to view information, here we chose to display phosphate data.
+
+```{r National Plot}
+#pal1 <- colorBin(palette = "viridis", domain=today$Phos_ppm, 
+     #            bins = c(0, 0.1, 0.2,0.3,0.4,0.5,1,2,3,4,5))
+
+#Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
+
+leaflet(today) %>% 
+  addProviderTiles(providers$Esri) %>% 
+     
+  addMarkers(
+                  popup = paste0("Site: ", today$Site_Name,"<br> ",
+                                  "Phosphate (ppm): ",today$Phos_ppm,
+                                  "<br> Collected at: ", today$created_at,
+                                  "<br> <b>Site Photo<b> <br>",
+                   "<img src='", today$`_Please_add_a_phot`, "' width='200' height='150'>")) 
+
+```
+
+------------------------------------------------------------------------
+
+## Quality Assurance & Quality Control
+
+#### Values within a range
+
+We can screen incoming data for NULL values, or values within a particular range and remove them.
+
+```{r screening for zeroes}
+#for (x in 1:dim(df)[2]){
+ # print(paste0(colnames(df)[x], " has ", sum(is.na(df[x])), " zeroes"))
+  #}
+
+```
+
+#### Removing dupicates
+
+If there are duplicate surveys, these can be screened and removed.
+
+The below data table has had duplicates removed. We have now saved the upstream analyst some time.
+
+```{r}
+
+today <- unique(today)
+
+
+DT::datatable(today[,c(4:28)])
+```
+
+#### Adding columns
+
+If there are conditions which tend to skew results we could apply a confidence score to this data and populate a new column.
+
+High river levels are interpreted to result in turbid conditions which can skew off-the-shelf colorimeter results, temperatures less than 10°C also tend to skew these off-the-shelf meters, therefore we can apply a confidence column to this data when both these results are recorded.
+
+Note the new column on the right.
+
+```{r}
+
+
+
+# Plots of national variation in data for Cit Sci QAQC
+
+today$confidence <- ifelse(today$Temp_.C < 10 & today$River_level == "High", "Low", "Normal")
+
+DT::datatable(head(today[,c(4:28,30)]))
+
+
+```
+
+#### Applying calculations to a dataset
+
+Additional calculations can be automatically applied to data when it arrives at the EA. This could be the application of a conversion factor; converting easting and northings to lat and long; or applying statistics. The below map explores some of the ATWQMN nitrate data. Here we've applied a mean, the below mean covers an arbitrary time span, a mean is calculated from `r range(df$Date)[1]` to today's date.
+
+By clicking on the sites you can see how many samples a mean covers.
+
+```{r}
+
+
+pal1 <- colorBin(palette = "viridis", domain=df$Mean_Nitrate, 
+                 bins = c(0,0.5,1,2,3,4,5,10,15,20,30,40))
+
+
+# Count number of measurements at site for phosphate 
+df %<>%
+    group_by(Site_Name, Phos_ppm) %>% 
+  mutate(C = n())
+
+#Plot mean nitrate on a map, experimental so only covers an arbitrary timespan
+
+leaflet(df) %>% 
+  addProviderTiles(providers$Esri) %>% 
+  setView(-1.916300433104264,53.15126385469105, zoom = 5.5) %>% 
+  addCircleMarkers(lng= ~df$Longitude, 
+                   lat= ~df$Latitude, 
+                   col=~pal1(df$Mean_Nitrate), 
+                   radius=5, 
+                   opacity = 1,
+                   popup = paste0("Site: ",df$Site_Name,"<br> ",
+                                  "Mean Nitrate (ppm): ",df$Mean_Nitrate,
+                                  "<br> Collected at: ", df$created_at,
+                                  "<br> Mean sample count: ", df$C,
+                                  "<br> <b>Site Photo<b> <br>",
+                   "<img src='", df$`_Please_add_a_phot`, "' width='200' height='150'>")
+                                  ) %>% 
+  addLegend(pal = pal1, values = ~Mean_Nitrate, opacity = 0.7,
+            title="Mean Nitrate (ppm)") %>% 
+  addControl(paste0("Mean Nitrate (ppm) from ", range(df$Date)[1], " to ", 
+                    range(df$Date)[2]),
+             position = "bottomleft")
+
+```
+
+------------------------------------------------------------------------
+
+## Transforming and linking datasets
+
+We can also transform citizen science data so that it matches our own monitoring data. In this example, we perform a spatial join on the ATWQMN data assigning monitoring sites to WFD waterbodies so that our catchment planning practitioners can filter this external data by EA waterbodies. This is a necessary step and saves our EA analysts time. Scroll right to now see that WFD data has been assigned.
+
+```{r}
+
+source("R Files/WFD_st_is_within_Transforms.R")
+
+DT::datatable(head(joined[,c(2:15, 32,36:37, 39:40)]))
+
+```
+
+We can also link citizen science data: it may be useful to link additional lines of evidence adding resolution to data from other schemes. Here we link ATWQMN data with Riverfly Monitoring Initiative (RMI) data, although these are from different organisations, unique identifiers can be applied based on their proximity. Here surveys within a 50m radius are paired.
+
+The below map shows sites which have associated RMI and ATWQMN data. Zoom in to explore this data. Data hasn't been filtered for surveys to be on the same date, although this is viable.
+
+```{r}
+
+leaflet() %>% 
+  addProviderTiles(providers$Esri) %>% 
+  setView(lat= 51.04692740967973, lng = -1.417165558064123, zoom=10) %>% 
+  addCircleMarkers(data=AT_Twin,
+                   col="blue",
+                   radius=4,
+                   popup = paste0("Date of Survey: ", AT_Twin$Date, 
+                                  "<br>Time: ", AT_Twin$`_At_what_time_was_t`,
+                                  "<br>River: ", AT_Twin$River_Name,
+                                  "<br>Phosphate: ", AT_Twin$Phos_ppm,
+                                  "<br>EC: ", AT_Twin$`_What_is_the_Elect`),
+                   group = "ATWQMN Paired Data")%>% 
+  addCircleMarkers(data=ARMI_Twin,
+                   col="seagreen",
+                   radius=2,
+                   popup = paste0("Date of Survey: ", ARMI_Twin$Recorded..Date,
+                                  "<br>Time: ", ARMI_Twin$Recorded..Time,
+                                  "<br>River: ", ARMI_Twin$River,
+                                  "<br>Score: ", ARMI$ARMI.Total),
+                   group = "ARMI Paired Data") %>% 
+  addLayersControl(overlayGroups = c(
+              "ATWQMN Paired Data",
+              "ARMI Paired Data"),
+                   position = "topright",
+                   options= layersControlOptions(collapsed=FALSE)) %>% 
+  addLegend(
+          position = "bottomright",
+          colors = c("blue", "seagreen"),
+          labels = c("ATWQMN Data", "ARMI Data"),
+          opacity = 0.9,
+                      title = "Data Sources")
+
+```
+
+#### Analytical Plots
+
+The below graphs are arbitrary example plots. Here we show phosphate and ammonia at different river levels. These plots are intended to show how meters behave at different river levels and after periods of rainfall.
+
+```{r}
+
+df_counts_Phos <- df %>%
+  group_by(River_level, Phos_ppm) %>%
+  summarise(count = n()) %>% 
+  mutate(
+    tot_count = sum(count)
+  )
+
+df_counts_Amm <- df %>%
+  group_by(River_level, Ammon_ppm) %>%
+  summarise(count = n()) %>% 
+  mutate(
+    tot_count = sum(count)
+  )
+
+df_counts_Elec <- df %>%
+  group_by(River_level, X_What_is_the_Elect) %>%
+  summarise(count = n()) %>% 
+  mutate(
+    tot_count = sum(count)
+  )
+
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+# See distribution change at different river leves and therein we're inferring turbidity levels.
+a <- ggplot(df, aes(x = "", y = Ammon_ppm)) +
+  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + 
+  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + 
+  geom_text(data = df_counts_Amm, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + 
+  labs(title = "Ammonia Distribution by River Level", x = "", y = "Ammon_ppm") +
+  scale_y_continuous(limits = c(0, 2.5)) + 
+  facet_wrap(~ River_level, scales = "free_y") + 
+  theme_minimal() + 
+  theme(legend.position = "none") 
+
+
+b <- ggplot(df, aes(x = "", y = Phos_ppm)) +
+  geom_violin(aes(fill = River_level), color = "black", alpha = 0.5) + 
+  geom_boxplot(width = 0.2, color = "black", aes(fill = River_level), alpha = 0.7) + 
+  geom_text(data = df_counts_Phos, aes(x = "", y = -Inf, label = paste("Count: ", tot_count)), vjust = -0.4, hjust = 0.5, size = 3) + # Add counts below the x-axis
+  labs(title = "Phosphate Distribution by River Level", x = "", y = "Phosphate (ppm)") +
+  scale_y_continuous(limits = c(0, 2.5)) + 
+  facet_wrap(~ River_level, scales = "free_y") + 
+  theme_minimal() + 
+  theme(legend.position = "none") 
+
+ggplotly(a)
+
+ggplotly(b)
+
+
+
+```
+
+## Summary
+
+The below schematic visualises the above process. You can find out more about the DASH platform on the EA Sharepoint.
+
+![Citizen Science Data Flow Diagram](DFD.png){fig-align="center"}
